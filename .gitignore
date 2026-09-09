@@ -1,6 +1,8 @@
 node_modules/
 dist/
 fixone-cloud-work/
+parts-library-work/
+progress-backup-*/
 
 .env
 .env.*
