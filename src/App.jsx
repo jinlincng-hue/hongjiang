@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   BadgeCheck,
   BookOpen,
@@ -454,7 +454,7 @@ function App() {
 
       <main id="top">
         {isTrainingRoute ? (
-          <TrainingRoute />
+          <TrainingRoute volunteerUser={volunteerUser} />
         ) : isVolunteerRoute ? (
           <VolunteerDashboard
             volunteerUser={volunteerUser}
@@ -1814,19 +1814,342 @@ function VolunteerDashboard({ volunteerUser, openFlow, onTrainingOpen, onVolunte
   );
 }
 
-function TrainingRoute() {
+function TrainingRoute({ volunteerUser }) {
+  const videoRef = useRef(null);
+  const watchRef = useRef({ pendingSeconds: 0, lastWallTime: Date.now(), lastVideoTime: 0, reporting: false });
+  const [courses, setCourses] = useState([]);
+  const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [clips, setClips] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [query, setQuery] = useState("");
+  const [commentText, setCommentText] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [commentMessage, setCommentMessage] = useState("");
+
+  const categories = useMemo(() => {
+    const values = Array.from(new Set(courses.map((course) => course.category).filter(Boolean)));
+    return values.slice(0, 6);
+  }, [courses]);
+
+  const activeClip = clips.find((clip) => clip.videoUrl) || null;
+
+  useEffect(() => {
+    let cancelled = false;
+    const controller = new AbortController();
+    setLoading(true);
+    setMessage("");
+    fetch(`/api/training/courses${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ""}`, {
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.message || "课程加载失败");
+        if (cancelled) return;
+        const nextCourses = Array.isArray(data.courses) ? data.courses : [];
+        setCourses(nextCourses);
+        setSelectedCourseId((current) =>
+          nextCourses.some((course) => course.id === current) ? current : nextCourses[0]?.id || "",
+        );
+      })
+      .catch((error) => {
+        if (!cancelled && error.name !== "AbortError") setMessage(error.message || "课程加载失败");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, [query]);
+
+  useEffect(() => {
+    if (!selectedCourseId) return undefined;
+    let cancelled = false;
+    setDetailLoading(true);
+    setMessage("");
+    setCommentMessage("");
+    Promise.all([
+      fetch(`/api/training/courses/${encodeURIComponent(selectedCourseId)}`).then(async (response) => {
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.message || "课程详情加载失败");
+        return data;
+      }),
+      fetch(`/api/training/courses/${encodeURIComponent(selectedCourseId)}/comments`).then(async (response) => {
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.message || "评论加载失败");
+        return data;
+      }),
+    ])
+      .then(([detail, commentData]) => {
+        if (cancelled) return;
+        setSelectedCourse(detail.project || null);
+        setClips(Array.isArray(detail.clips) ? detail.clips : []);
+        setComments(Array.isArray(commentData.comments) ? commentData.comments : []);
+      })
+      .catch((error) => {
+        if (!cancelled) setMessage(error.message || "课程详情加载失败");
+      })
+      .finally(() => {
+        if (!cancelled) setDetailLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedCourseId]);
+
+  function resetWatchTick() {
+    const video = videoRef.current;
+    watchRef.current.lastWallTime = Date.now();
+    watchRef.current.lastVideoTime = Number(video?.currentTime || 0);
+  }
+
+  async function reportLearningTime() {
+    const state = watchRef.current;
+    const seconds = Math.floor(state.pendingSeconds / 60) * 60;
+    if (seconds < 60 || state.reporting) return;
+    const token = localStorage.getItem("hongjiangVolunteerToken");
+    if (!token || !volunteerUser) {
+      setMessage("登录红匠志愿者后，观看时长会同步到我的排行。");
+      return;
+    }
+
+    state.pendingSeconds -= seconds;
+    state.reporting = true;
+    try {
+      const response = await fetch("/api/volunteer/learning-records", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          source: "fixone",
+          projectId: selectedCourse?.id || selectedCourseId,
+          projectTitle: selectedCourse?.title || "红匠学堂课程",
+          clipTitle: activeClip?.clipTitle || selectedCourse?.title || "维修教学视频",
+          durationSeconds: seconds,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.message || "学习时长同步失败");
+      setMessage(`已同步学习时长 ${data.credited_minutes} 分钟。`);
+    } catch (error) {
+      state.pendingSeconds += seconds;
+      setMessage(error.message || "学习时长同步失败");
+    } finally {
+      state.reporting = false;
+    }
+  }
+
+  function collectWatchTime() {
+    const video = videoRef.current;
+    if (!video || video.paused || video.ended || video.readyState < 2) {
+      resetWatchTick();
+      return;
+    }
+    const state = watchRef.current;
+    const now = Date.now();
+    const currentTime = Number(video.currentTime || 0);
+    const wallSeconds = (now - state.lastWallTime) / 1000;
+    const mediaSeconds = currentTime - state.lastVideoTime;
+    if (wallSeconds > 0 && wallSeconds < 10 && mediaSeconds > 0) {
+      state.pendingSeconds += Math.min(wallSeconds, mediaSeconds, 5);
+      reportLearningTime();
+    }
+    state.lastWallTime = now;
+    state.lastVideoTime = currentTime;
+  }
+
+  async function submitComment(event) {
+    event.preventDefault();
+    const token = localStorage.getItem("hongjiangVolunteerToken");
+    const content = commentText.trim();
+    if (!token || !volunteerUser) {
+      setCommentMessage("请先登录红匠志愿者账号。");
+      return;
+    }
+    if (!content) {
+      setCommentMessage("请输入评论内容。");
+      return;
+    }
+
+    setCommentMessage("发表中...");
+    try {
+      const response = await fetch(`/api/training/courses/${encodeURIComponent(selectedCourseId)}/comments`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.ok) throw new Error(data.message || "评论发表失败");
+      setCommentText("");
+      setCommentMessage("评论已同步到视修工坊。");
+      const next = await fetch(`/api/training/courses/${encodeURIComponent(selectedCourseId)}/comments`).then((res) => res.json());
+      setComments(Array.isArray(next.comments) ? next.comments : []);
+    } catch (error) {
+      setCommentMessage(error.message || "评论发表失败");
+    }
+  }
+
+  function formatCommentDate(value) {
+    if (!value) return "刚刚";
+    const date = new Date(String(value).replace(" ", "T"));
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+  }
+
   return (
-    <section className="training-route" aria-labelledby="training-route-title">
-      <h1 id="training-route-title" className="sr-only">
-        志愿者技能培训
-      </h1>
-      <div className="training-frame-wrap">
-        <iframe
-          title="fixone.cloud 手机维修学习系统"
-          src="https://fixone.cloud/"
-          loading="lazy"
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
+    <section className="training-route school-route" aria-labelledby="training-route-title">
+      <div className="school-hero">
+        <div>
+          <span className="training-eyebrow">红匠学堂</span>
+          <h1 id="training-route-title">维修技能学习板块</h1>
+          <p>课程内容读取自视修工坊，学习时长进入红匠排行，评论同步回视修工坊。</p>
+        </div>
+        <div className="school-hero-actions">
+          <label className="school-search">
+            <Search size={18} />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索维修课程" />
+          </label>
+        </div>
+      </div>
+
+      {message ? <div className="school-message">{message}</div> : null}
+
+      <div className="school-layout">
+        <aside className="school-sidebar" aria-label="课程列表">
+          <div className="school-sidebar-head">
+            <strong>课程库</strong>
+            <span>{loading ? "同步中" : `${courses.length} 门`}</span>
+          </div>
+          {categories.length ? (
+            <div className="school-tags">
+              {categories.map((category) => (
+                <button type="button" key={category} onClick={() => setQuery(category)}>
+                  {category}
+                </button>
+              ))}
+            </div>
+          ) : null}
+          <div className="school-course-list">
+            {loading ? (
+              <div className="school-empty">正在读取视修工坊课程...</div>
+            ) : courses.length ? (
+              courses.map((course) => (
+                <button
+                  className={selectedCourseId === course.id ? "school-course active" : "school-course"}
+                  type="button"
+                  key={course.id}
+                  onClick={() => setSelectedCourseId(course.id)}
+                >
+                  <span>{course.category || "维修教学"}</span>
+                  <strong>{course.title}</strong>
+                  <small>{course.device_model || course.uploader_name || "视修工坊课程"}</small>
+                </button>
+              ))
+            ) : (
+              <div className="school-empty">暂无匹配课程</div>
+            )}
+          </div>
+          <div className="school-parts-entry">
+            <Wrench size={20} />
+            <div>
+              <strong>配件库</strong>
+              <span>接口预留，待同步模块接入</span>
+            </div>
+          </div>
+        </aside>
+
+        <div className="school-main">
+          <article className="school-player-card">
+            <div className="school-player-head">
+              <div>
+                <span>{selectedCourse?.category || "红匠课程"}</span>
+                <h2>{selectedCourse?.title || "请选择课程"}</h2>
+                <p>{selectedCourse?.description || "从左侧选择课程后开始学习。"}</p>
+              </div>
+              <BookOpen size={28} />
+            </div>
+            <div className="school-video-shell">
+              {detailLoading ? (
+                <div className="school-empty large">正在加载课程...</div>
+              ) : activeClip?.videoUrl ? (
+                <video
+                  ref={videoRef}
+                  src={activeClip.videoUrl}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  onPlay={resetWatchTick}
+                  onSeeking={resetWatchTick}
+                  onTimeUpdate={collectWatchTime}
+                  onPause={() => {
+                    collectWatchTime();
+                    reportLearningTime();
+                  }}
+                  onEnded={() => {
+                    collectWatchTime();
+                    reportLearningTime();
+                  }}
+                />
+              ) : (
+                <div className="school-empty large">该课程暂未提供可播放视频</div>
+              )}
+            </div>
+          </article>
+
+          <article className="school-comments">
+            <div className="school-comments-head">
+              <div>
+                <span>学习讨论</span>
+                <strong>评论同步到视修工坊</strong>
+              </div>
+              <em>{comments.length} 条</em>
+            </div>
+            <form className="school-comment-form" onSubmit={submitComment}>
+              <textarea
+                value={commentText}
+                onChange={(event) => setCommentText(event.target.value)}
+                placeholder={volunteerUser ? "写下维修经验、疑问或补充说明" : "登录红匠志愿者后可发表评论"}
+                disabled={!selectedCourseId}
+                maxLength={420}
+              />
+              <div>
+                <span>{commentMessage}</span>
+                <button className="solid-button small" type="submit" disabled={!selectedCourseId}>
+                  <SendHorizontal size={16} /> 发表评论
+                </button>
+              </div>
+            </form>
+            <div className="school-comment-list">
+              {comments.length ? (
+                comments.map((comment, index) => (
+                  <article className="school-comment" key={comment.id || `${comment.created_at}-${index}`}>
+                    <div className="school-comment-avatar" aria-hidden="true">
+                      {Array.from(comment.display_name || comment.username || "红")[0]}
+                    </div>
+                    <div>
+                      <header>
+                        <strong>{comment.display_name || comment.username || "视修工坊用户"}</strong>
+                        <time>{formatCommentDate(comment.created_at)}</time>
+                      </header>
+                      <p>{comment.content}</p>
+                    </div>
+                  </article>
+                ))
+              ) : (
+                <div className="school-empty">还没有评论</div>
+              )}
+            </div>
+          </article>
+        </div>
       </div>
     </section>
   );

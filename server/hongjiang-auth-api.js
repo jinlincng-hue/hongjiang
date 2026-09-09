@@ -35,6 +35,20 @@ const ALIYUN_PNVS_H5_SCENE_CODE =
   process.env.ALIYUN_PNVS_H5_SCENE_CODE || process.env.ALIYUN_PNVS_SCHEME_NAME || "";
 const ALIYUN_PNVS_H5_ORIGIN = process.env.ALIYUN_PNVS_H5_ORIGIN || "https://hongjiang.fixone.cloud";
 const ALIYUN_PNVS_H5_URL = process.env.ALIYUN_PNVS_H5_URL || "https://hongjiang.fixone.cloud/";
+const FIXONE_ORIGIN = (process.env.FIXONE_ORIGIN || "https://fixone.cloud").replace(/\/+$/, "");
+const FIXONE_SYNC_USERNAME = process.env.FIXONE_SYNC_USERNAME || "hongjiang_school_sync";
+const FIXONE_SYNC_PASSWORD = process.env.FIXONE_SYNC_PASSWORD || "hongjiang-fixone-sync-2026";
+const FIXONE_SYNC_EMAIL = process.env.FIXONE_SYNC_EMAIL || "hongjiang-school-sync@fixone.cloud";
+const FIXONE_SYNC_DISPLAY_NAME = process.env.FIXONE_SYNC_DISPLAY_NAME || "红匠学堂";
+const CORS_ALLOWED_ORIGINS = new Set([
+  "https://fixone.cloud",
+  "https://www.fixone.cloud",
+  "https://hongjiang.fixone.cloud",
+  "http://127.0.0.1:8888",
+  "http://localhost:8888",
+  "http://127.0.0.1:5173",
+  "http://localhost:5173",
+]);
 
 if (!JWT_SECRET || JWT_SECRET.length < 24) {
   console.error("JWT_SECRET must be set and at least 24 characters.");
@@ -70,6 +84,7 @@ import sys
 db_path = sys.argv[1]
 mode = sys.argv[2]
 sql = sys.stdin.read()
+sql = sql.encode("utf-8", "ignore").decode("utf-8", "ignore")
 conn = sqlite3.connect(db_path)
 conn.row_factory = sqlite3.Row
 try:
@@ -114,7 +129,7 @@ function sqliteJson(sql) {
 }
 
 function q(value) {
-  return `'${String(value ?? "").replaceAll("'", "''")}'`;
+  return `'${String(value ?? "").replace(/[\uD800-\uDFFF]/g, "").replaceAll("'", "''")}'`;
 }
 
 function slugify(value) {
@@ -353,6 +368,23 @@ function sendFile(res, status, body, contentType) {
     "Cache-Control": "public, max-age=31536000, immutable",
   });
   res.end(body);
+}
+
+function applyCors(req, res) {
+  const origin = String(req.headers.origin || "");
+  if (CORS_ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+    res.setHeader("Access-Control-Allow-Credentials", "false");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Admin-Token");
+  }
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, { "Cache-Control": "no-store" });
+    res.end();
+    return true;
+  }
+  return false;
 }
 
 async function readJson(req) {
@@ -838,6 +870,206 @@ function handleVolunteerServiceRecords(req, res) {
   });
 }
 
+async function handleCreateVolunteerLearningRecord(req, res) {
+  const auth = String(req.headers.authorization || "");
+  const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+  const payload = verifyToken(token);
+  if (!payload) return json(res, 401, { ok: false, message: "未登录或登录已过期" });
+
+  const existing = sqliteJson(
+    `SELECT id FROM users WHERE id=${Number(payload.sub)} AND role='volunteer' LIMIT 1;`,
+  )[0];
+  if (!existing) return json(res, 401, { ok: false, message: "用户不存在" });
+
+  const body = await readJson(req);
+  const durationSeconds = Math.max(0, Math.min(600, Math.floor(Number(body.durationSeconds || 0))));
+  const durationMinutes = Math.floor(durationSeconds / 60);
+  const projectTitle = String(body.projectTitle || body.courseTitle || "Fixone维修教学视频").trim().slice(0, 80);
+  const clipTitle = String(body.clipTitle || "").trim().slice(0, 80);
+  const source = String(body.source || "fixone").trim().slice(0, 30);
+  const projectId = String(body.projectId || "").trim().slice(0, 80);
+  const courseTitle = [projectTitle, clipTitle && clipTitle !== projectTitle ? clipTitle : "", source === "fixone" ? "Fixone" : ""]
+    .filter(Boolean)
+    .join(" · ")
+    .slice(0, 140);
+
+  if (durationMinutes < 1) return json(res, 400, { ok: false, message: "学习时长不足 1 分钟" });
+
+  sqlite(`
+    INSERT INTO volunteer_learning_records (user_id, course_title, learned_at, duration_minutes)
+    VALUES (${Number(payload.sub)}, ${q(projectId ? `${courseTitle}（${projectId}）` : courseTitle)}, date('now'), ${durationMinutes});
+  `);
+
+  const stats = sqliteJson(`
+    SELECT COALESCE(SUM(duration_minutes), 0) AS learning_minutes
+    FROM volunteer_learning_records
+    WHERE user_id=${Number(payload.sub)};
+  `)[0] || { learning_minutes: 0 };
+
+  return json(res, 201, {
+    ok: true,
+    credited_minutes: durationMinutes,
+    learning_minutes: Number(stats.learning_minutes || 0),
+  });
+}
+
+function normalizeFixoneUrl(value) {
+  const url = String(value || "").trim();
+  if (!url) return "";
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${FIXONE_ORIGIN}${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
+function normalizeTrainingCourse(project) {
+  return {
+    id: String(project?.id || ""),
+    title: String(project?.title || "维修教学视频"),
+    description: String(project?.description || ""),
+    category: String(project?.category || project?.repair_part || "维修教学"),
+    device_model: String(project?.device_model || project?.model || ""),
+    uploader_name: String(project?.uploader_name || ""),
+    created_at: String(project?.created_at || ""),
+    thumbnailUrl: normalizeFixoneUrl(project?.thumbnail_file_path || project?.thumbnailUrl || ""),
+    videoUrl: normalizeFixoneUrl(project?.video_file_path || project?.videoUrl || ""),
+    relevance_score: Number(project?.relevance_score || 0),
+  };
+}
+
+async function fetchFixoneJson(pathname, options = {}) {
+  const response = await fetch(`${FIXONE_ORIGIN}${pathname}`, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      "Accept": "application/json",
+    },
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(data.message || "视修工坊接口暂不可用");
+    error.statusCode = response.status;
+    throw error;
+  }
+  return data;
+}
+
+async function getFixoneSyncToken() {
+  try {
+    await fetchFixoneJson("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: FIXONE_SYNC_USERNAME,
+        display_name: FIXONE_SYNC_DISPLAY_NAME,
+        password: FIXONE_SYNC_PASSWORD,
+        email: FIXONE_SYNC_EMAIL,
+      }),
+    });
+  } catch (error) {
+    if (error.statusCode !== 409) throw error;
+  }
+
+  const result = await fetchFixoneJson("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: FIXONE_SYNC_USERNAME,
+      password: FIXONE_SYNC_PASSWORD,
+    }),
+  });
+  const token = result?.user?.sessionToken;
+  if (!token) throw new Error("视修工坊同步账号登录失败");
+  return token;
+}
+
+async function handleTrainingCourses(req, res) {
+  const requestUrl = new URL(req.url, "http://localhost");
+  const query = String(requestUrl.searchParams.get("q") || "").trim();
+  const keywords = query
+    ? [query]
+    : ["手机维修", "屏幕", "电池", "充电", "主板", "不开机", "电饭煲"];
+  const courses = new Map();
+
+  for (const keyword of keywords) {
+    const data = await fetchFixoneJson(`/api/search?q=${encodeURIComponent(keyword)}`);
+    [...(data.projects || []), ...(data.relatedProjects || [])].forEach((project) => {
+      const course = normalizeTrainingCourse(project);
+      if (!course.id || courses.has(course.id)) return;
+      courses.set(course.id, course);
+    });
+  }
+
+  return json(res, 200, {
+    ok: true,
+    courses: Array.from(courses.values()).slice(0, query ? 18 : 24),
+  });
+}
+
+async function handleTrainingCourseDetail(req, res, projectId) {
+  const data = await fetchFixoneJson(`/api/repair-video-projects/${encodeURIComponent(projectId)}/playlist`);
+  const project = normalizeTrainingCourse(data.project || {});
+  const clips = Array.isArray(data.clips)
+    ? data.clips.map((clip) => ({
+        id: String(clip.id || project.id),
+        clipTitle: String(clip.clipTitle || clip.title || project.title),
+        clipDescription: String(clip.clipDescription || clip.description || ""),
+        videoUrl: normalizeFixoneUrl(clip.videoUrl || ""),
+        status: String(clip.status || ""),
+      }))
+    : [];
+
+  return json(res, 200, {
+    ok: true,
+    project,
+    clips,
+    message: String(data.message || ""),
+  });
+}
+
+async function handleTrainingCourseComments(req, res, projectId) {
+  const data = await fetchFixoneJson(`/api/repair-video-projects/${encodeURIComponent(projectId)}/comments`);
+  return json(res, 200, {
+    ok: true,
+    comments: Array.isArray(data.comments) ? data.comments : [],
+    count: Number(data.count || 0),
+  });
+}
+
+async function handleCreateTrainingCourseComment(req, res, projectId) {
+  const auth = String(req.headers.authorization || "");
+  const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+  const payload = verifyToken(token);
+  if (!payload) return json(res, 401, { ok: false, message: "未登录或登录已过期" });
+
+  const user = sqliteJson(
+    `SELECT id, phone, name, role FROM users WHERE id=${Number(payload.sub)} AND role='volunteer' LIMIT 1;`,
+  )[0];
+  if (!user) return json(res, 401, { ok: false, message: "用户不存在" });
+
+  const body = await readJson(req);
+  const content = String(body.content || "").trim();
+  if (!content) return json(res, 400, { ok: false, message: "请输入评论内容" });
+  if (content.length > 420) return json(res, 400, { ok: false, message: "评论不能超过 420 个字" });
+
+  const displayName = String(user.name || "红匠志愿者").replace(/[\r\n]+/g, " ").slice(0, 30);
+  const syncToken = await getFixoneSyncToken();
+  const result = await fetchFixoneJson(`/api/repair-video-projects/${encodeURIComponent(projectId)}/comments`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${syncToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      content: `红匠学堂｜${displayName}：${content}`,
+    }),
+  });
+
+  return json(res, 201, {
+    ok: true,
+    message: result.message || "评论发表成功",
+    comment: result.comment || null,
+  });
+}
+
 function handlePublicStats(req, res) {
   const userStats = sqliteJson(`
     SELECT COUNT(*) AS volunteer_count
@@ -1197,6 +1429,7 @@ function handleUploadedFile(req, res) {
 
 const server = http.createServer(async (req, res) => {
   try {
+    if (applyCors(req, res)) return;
     if (req.method === "GET" && req.url === "/api/health") {
       return json(res, 200, { ok: true });
     }
@@ -1208,6 +1441,26 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "PATCH" && req.url === "/api/auth/me") return await handleUpdateMe(req, res);
     if (req.method === "GET" && req.url === "/api/volunteer/service-records") {
       return handleVolunteerServiceRecords(req, res);
+    }
+    if (req.method === "POST" && req.url === "/api/volunteer/learning-records") {
+      return await handleCreateVolunteerLearningRecord(req, res);
+    }
+    if (req.method === "GET" && String(req.url || "").startsWith("/api/training/courses?")) {
+      return await handleTrainingCourses(req, res);
+    }
+    if (req.method === "GET" && req.url === "/api/training/courses") {
+      return await handleTrainingCourses(req, res);
+    }
+    const trainingCommentsMatch = String(req.url || "").match(/^\/api\/training\/courses\/([^/]+)\/comments$/);
+    if (trainingCommentsMatch && req.method === "GET") {
+      return await handleTrainingCourseComments(req, res, decodeURIComponent(trainingCommentsMatch[1]));
+    }
+    if (trainingCommentsMatch && req.method === "POST") {
+      return await handleCreateTrainingCourseComment(req, res, decodeURIComponent(trainingCommentsMatch[1]));
+    }
+    const trainingCourseMatch = String(req.url || "").match(/^\/api\/training\/courses\/([^/]+)$/);
+    if (trainingCourseMatch && req.method === "GET") {
+      return await handleTrainingCourseDetail(req, res, decodeURIComponent(trainingCourseMatch[1]));
     }
     if (req.method === "GET" && req.url === "/api/public/stats") return handlePublicStats(req, res);
     if (req.method === "GET" && req.url === "/api/public/volunteer-rankings") return handleVolunteerRankings(req, res);
