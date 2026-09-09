@@ -1,0 +1,1042 @@
+[
+  {
+    "index": "1",
+    "device": "电饭煲",
+    "fault": "不通电",
+    "file": "01_电饭煲_不通电.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\01_电饭煲_不通电.mp4",
+    "uploadTitle": "电饭煲不通电",
+    "description": "本视频讲解电饭煲不通电 煮不了饭 先别着急找师傅维修，适合家电维修教学参考。",
+    "deviceModel": "电饭煲 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:42:56.523Z",
+    "finishedAt": "2026-07-26T06:42:59.538Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo01",
+      "projectName": "memberRepairVideo01"
+    },
+    "error": ""
+  },
+  {
+    "index": "2",
+    "device": "电饭煲",
+    "fault": "按下煮饭键马上跳保温",
+    "file": "02_电饭煲_按下煮饭键马上跳保温.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\02_电饭煲_按下煮饭键马上跳保温.mp4",
+    "uploadTitle": "电饭煲按下煮饭键马上跳保温",
+    "description": "本视频讲解电饭锅饭没熟就跳闸？根源就是这个磁钢限温器！ 合肥修电饭锅｜三角14L商用锅夹生糊饭？换磁钢限温器立马修好 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电饭煲 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:42:59.540Z",
+    "finishedAt": "2026-07-26T06:43:40.376Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo02",
+      "projectName": "memberRepairVideo02"
+    },
+    "error": ""
+  },
+  {
+    "index": "3",
+    "device": "电饭煲",
+    "fault": "米饭夹生",
+    "file": "03_电饭煲_米饭夹生.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\03_电饭煲_米饭夹生.mp4",
+    "uploadTitle": "电饭煲米饭夹生",
+    "description": "本视频讲解煮饭夹生 或加热后跳故障码E3大多是它的问题 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电饭煲 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:43:40.377Z",
+    "finishedAt": "2026-07-26T06:43:41.961Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo03",
+      "projectName": "memberRepairVideo03"
+    },
+    "error": ""
+  },
+  {
+    "index": "4",
+    "device": "电饭煲",
+    "fault": "煮饭糊底严重",
+    "file": "04_电饭煲_煮饭糊底严重.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\04_电饭煲_煮饭糊底严重.mp4",
+    "uploadTitle": "电饭煲煮饭糊底严重",
+    "description": "本视频讲解🎉电饭煲饭煮不熟、煮焦饭、煮粥溢出来、米饭太硬或者太软怎么办？ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电饭煲 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:43:41.962Z",
+    "finishedAt": "2026-07-26T06:44:28.683Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo04",
+      "projectName": "memberRepairVideo04"
+    },
+    "error": ""
+  },
+  {
+    "index": "5",
+    "device": "电饭煲",
+    "fault": "保温不热",
+    "file": "05_电饭煲_保温不热.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\05_电饭煲_保温不热.mp4",
+    "uploadTitle": "电饭煲保温不热",
+    "description": "本视频讲解你知道电饭煲不加热，煮糊饭、不保温怎么办吗？检测温度传感器是否损坏。 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电饭煲 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:44:28.684Z",
+    "finishedAt": "2026-07-26T06:44:33.413Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo05",
+      "projectName": "memberRepairVideo05"
+    },
+    "error": ""
+  },
+  {
+    "index": "6",
+    "device": "电饭煲",
+    "fault": "显示屏不亮",
+    "file": "06_电饭煲_显示屏不亮.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\06_电饭煲_显示屏不亮.mp4",
+    "uploadTitle": "电饭煲显示屏不亮",
+    "description": "本视频讲解第一视角带你全过程维修电饭煲通电不亮，适合家电维修教学参考。",
+    "deviceModel": "电饭煲 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:44:33.413Z",
+    "finishedAt": "2026-07-26T06:44:50.377Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo06",
+      "projectName": "memberRepairVideo06"
+    },
+    "error": ""
+  },
+  {
+    "index": "7",
+    "device": "电饭煲",
+    "fault": "有焦味",
+    "file": "07_电饭煲_有焦味.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\07_电饭煲_有焦味.mp4",
+    "uploadTitle": "电饭煲有焦味",
+    "description": "本视频讲解电饭煲插头为啥容易烧坏，和防范办法！ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电饭煲 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:44:50.378Z",
+    "finishedAt": "2026-07-26T06:44:54.590Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo07",
+      "projectName": "memberRepairVideo07"
+    },
+    "error": ""
+  },
+  {
+    "index": "8",
+    "device": "电磁炉",
+    "fault": "不通电",
+    "file": "08_电磁炉_不通电.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\08_电磁炉_不通电.mp4",
+    "uploadTitle": "电磁炉不通电",
+    "description": "本视频讲解电磁炉不通电了怎么办？保姆级视频教程、怒省200！，适合家电维修教学参考。",
+    "deviceModel": "电磁炉 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:44:54.590Z",
+    "finishedAt": "2026-07-26T06:45:09.374Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo08",
+      "projectName": "memberRepairVideo08"
+    },
+    "error": ""
+  },
+  {
+    "index": "9",
+    "device": "电磁炉",
+    "fault": "显示 E0/E1 等故障码",
+    "file": "09_电磁炉_显示 E0_E1 等故障码.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\09_电磁炉_显示 E0_E1 等故障码.mp4",
+    "uploadTitle": "电磁炉显示 E0/E1 等故障码",
+    "description": "本视频讲解电磁炉维修实战解析：U1故障代码的意义与解决方法，适合家电维修教学参考。",
+    "deviceModel": "电磁炉 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:45:09.375Z",
+    "finishedAt": "2026-07-26T06:45:35.901Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo09",
+      "projectName": "memberRepairVideo09"
+    },
+    "error": ""
+  },
+  {
+    "index": "10",
+    "device": "电磁炉",
+    "fault": "加热一下就停",
+    "file": "10_电磁炉_加热一下就停.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\10_电磁炉_加热一下就停.mp4",
+    "uploadTitle": "电磁炉加热一下就停",
+    "description": "本视频讲解电磁炉维修技巧干货分享 电磁炉加热一会就停了，插电没反应，通电滴滴响不加热，看完就知道这些故障到底是什么坏了，适合家电维修教学参考。",
+    "deviceModel": "电磁炉 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:45:35.902Z",
+    "finishedAt": "2026-07-26T06:46:39.159Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo10",
+      "projectName": "memberRepairVideo10"
+    },
+    "error": ""
+  },
+  {
+    "index": "11",
+    "device": "电磁炉",
+    "fault": "不加热但能开机",
+    "file": "11_电磁炉_不加热但能开机.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\11_电磁炉_不加热但能开机.mp4",
+    "uploadTitle": "电磁炉不加热但能开机",
+    "description": "本视频讲解电磁炉通电不加热没反应，加热一会就停如何维修？，适合家电维修教学参考。",
+    "deviceModel": "电磁炉 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:46:39.160Z",
+    "finishedAt": "2026-07-26T06:47:05.756Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo11",
+      "projectName": "memberRepairVideo11"
+    },
+    "error": ""
+  },
+  {
+    "index": "12",
+    "device": "电磁炉",
+    "fault": "风扇不转",
+    "file": "12_电磁炉_风扇不转.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\12_电磁炉_风扇不转.mp4",
+    "uploadTitle": "电磁炉风扇不转",
+    "description": "本视频讲解当我们遇到电磁炉的风扇不转，今天教大家如何快速检修，适合家电维修教学参考。",
+    "deviceModel": "电磁炉 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:47:05.757Z",
+    "finishedAt": "2026-07-26T06:48:05.551Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo12",
+      "projectName": "memberRepairVideo12"
+    },
+    "error": ""
+  },
+  {
+    "index": "13",
+    "device": "电磁炉",
+    "fault": "按键失灵",
+    "file": "13_电磁炉_按键失灵.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\13_电磁炉_按键失灵.mp4",
+    "uploadTitle": "电磁炉按键失灵",
+    "description": "本视频讲解电磁炉按键失灵维修技巧，适合家电维修教学参考。",
+    "deviceModel": "电磁炉 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:48:05.551Z",
+    "finishedAt": "2026-07-26T06:49:55.235Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo13",
+      "projectName": "memberRepairVideo13"
+    },
+    "error": ""
+  },
+  {
+    "index": "14",
+    "device": "电磁炉",
+    "fault": "一插电就跳闸",
+    "file": "14_电磁炉_一插电就跳闸.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\14_电磁炉_一插电就跳闸.mp4",
+    "uploadTitle": "电磁炉一插电就跳闸",
+    "description": "本视频讲解电磁炉一插电就跳闸，原来问题出在这里 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电磁炉 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:49:55.236Z",
+    "finishedAt": "2026-07-26T06:51:44.160Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo14",
+      "projectName": "memberRepairVideo14"
+    },
+    "error": ""
+  },
+  {
+    "index": "15",
+    "device": "电水壶",
+    "fault": "不通电",
+    "file": "15_电水壶_不通电.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\15_电水壶_不通电.mp4",
+    "uploadTitle": "电水壶不通电",
+    "description": "本视频讲解一分钟会修电水壶灯不亮不加热，90%都是小问题，零基础也能看懂 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电水壶 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:51:44.161Z",
+    "finishedAt": "2026-07-26T06:51:54.464Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo15",
+      "projectName": "memberRepairVideo15"
+    },
+    "error": ""
+  },
+  {
+    "index": "16",
+    "device": "电水壶",
+    "fault": "烧一会儿就断电",
+    "file": "16_电水壶_烧一会儿就断电.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\16_电水壶_烧一会儿就断电.mp4",
+    "uploadTitle": "电水壶烧一会儿就断电",
+    "description": "本视频讲解电热水壶开关故障维修，适合家电维修教学参考。",
+    "deviceModel": "电水壶 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:51:54.465Z",
+    "finishedAt": "2026-07-26T06:52:00.572Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo16",
+      "projectName": "memberRepairVideo16"
+    },
+    "error": ""
+  },
+  {
+    "index": "17",
+    "device": "电水壶",
+    "fault": "水开不断电",
+    "file": "17_电水壶_水开不断电.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\17_电水壶_水开不断电.mp4",
+    "uploadTitle": "电水壶水开不断电",
+    "description": "本视频讲解电水壶烧水不跳闸是什么原因？一分钟教会你怎么修好 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电水壶 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:52:00.572Z",
+    "finishedAt": "2026-07-26T06:52:06.726Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo17",
+      "projectName": "memberRepairVideo17"
+    },
+    "error": ""
+  },
+  {
+    "index": "18",
+    "device": "电水壶",
+    "fault": "接触不良/转一转才通电",
+    "file": "18_电水壶_接触不良_转一转才通电.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\18_电水壶_接触不良_转一转才通电.mp4",
+    "uploadTitle": "电水壶接触不良/转一转才通电",
+    "description": "本视频讲解电热水壶维修底座教程，适合家电维修教学参考。",
+    "deviceModel": "电水壶 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:52:06.727Z",
+    "finishedAt": "2026-07-26T06:52:11.048Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo18",
+      "projectName": "memberRepairVideo18"
+    },
+    "error": ""
+  },
+  {
+    "index": "19",
+    "device": "电水壶",
+    "fault": "漏水",
+    "file": "19_电水壶_漏水.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\19_电水壶_漏水.mp4",
+    "uploadTitle": "电水壶漏水",
+    "description": "本视频讲解电热壶漏水维修，适合家电维修教学参考。",
+    "deviceModel": "电水壶 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:52:11.048Z",
+    "finishedAt": "2026-07-26T06:52:21.171Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo19",
+      "projectName": "memberRepairVideo19"
+    },
+    "error": ""
+  },
+  {
+    "index": "20",
+    "device": "电水壶",
+    "fault": "有烧焦味",
+    "file": "20_电水壶_有烧焦味.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\20_电水壶_有烧焦味.mp4",
+    "uploadTitle": "电水壶有烧焦味",
+    "description": "本视频讲解电水壶烧水有塑料烧焦异味，到底什么问题？拆开一起看看 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电水壶 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:52:21.172Z",
+    "finishedAt": "2026-07-26T06:52:58.736Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo20",
+      "projectName": "memberRepairVideo20"
+    },
+    "error": ""
+  },
+  {
+    "index": "21",
+    "device": "电水壶",
+    "fault": "指示灯亮但不加热",
+    "file": "21_电水壶_指示灯亮但不加热.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\21_电水壶_指示灯亮但不加热.mp4",
+    "uploadTitle": "电水壶指示灯亮但不加热",
+    "description": "本视频讲解电水壶灯亮不加热，一般都是这2个原因，只要拆开一看就知道 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电水壶 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:52:58.737Z",
+    "finishedAt": "2026-07-26T06:53:06.199Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo21",
+      "projectName": "memberRepairVideo21"
+    },
+    "error": ""
+  },
+  {
+    "index": "22",
+    "device": "电风扇",
+    "fault": "通电嗡嗡响但不转",
+    "file": "22_电风扇_通电嗡嗡响但不转.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\22_电风扇_通电嗡嗡响但不转.mp4",
+    "uploadTitle": "电风扇通电嗡嗡响但不转",
+    "description": "本视频讲解电风扇不转嗡嗡直响就有两个原因到三个原因 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电风扇 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:53:06.200Z",
+    "finishedAt": "2026-07-26T06:53:27.246Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo22",
+      "projectName": "memberRepairVideo22"
+    },
+    "error": ""
+  },
+  {
+    "index": "23",
+    "device": "电风扇",
+    "fault": "转得很慢",
+    "file": "23_电风扇_转得很慢.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\23_电风扇_转得很慢.mp4",
+    "uploadTitle": "电风扇转得很慢",
+    "description": "本视频讲解风扇不转，转的慢，启动无力，自己怎么修好 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电风扇 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:53:27.247Z",
+    "finishedAt": "2026-07-26T06:53:58.520Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo23",
+      "projectName": "memberRepairVideo23"
+    },
+    "error": ""
+  },
+  {
+    "index": "24",
+    "device": "电风扇",
+    "fault": "完全不转",
+    "file": "24_电风扇_完全不转.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\24_电风扇_完全不转.mp4",
+    "uploadTitle": "电风扇完全不转",
+    "description": "本视频讲解第一视角带你全过程维修电风扇不转不吹风，适合家电维修教学参考。",
+    "deviceModel": "电风扇 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:53:58.520Z",
+    "finishedAt": "2026-07-26T06:54:18.411Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo24",
+      "projectName": "memberRepairVideo24"
+    },
+    "error": ""
+  },
+  {
+    "index": "25",
+    "device": "电风扇",
+    "fault": "摇头失效",
+    "file": "25_电风扇_摇头失效.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\25_电风扇_摇头失效.mp4",
+    "uploadTitle": "电风扇摇头失效",
+    "description": "本视频讲解电风扇不能摇头 咔咔响 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电风扇 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:54:18.412Z",
+    "finishedAt": "2026-07-26T06:54:26.248Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo25",
+      "projectName": "memberRepairVideo25"
+    },
+    "error": ""
+  },
+  {
+    "index": "26",
+    "device": "电风扇",
+    "fault": "噪音大",
+    "file": "26_电风扇_噪音大.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\26_电风扇_噪音大.mp4",
+    "uploadTitle": "电风扇噪音大",
+    "description": "本视频讲解电风扇电机不转、转起来有异响、叶片反转、不花钱一招解决 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电风扇 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:54:26.249Z",
+    "finishedAt": "2026-07-26T06:54:37.453Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo26",
+      "projectName": "memberRepairVideo26"
+    },
+    "error": ""
+  },
+  {
+    "index": "27",
+    "device": "电风扇",
+    "fault": "遥控失灵",
+    "file": "27_电风扇_遥控失灵.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\27_电风扇_遥控失灵.mp4",
+    "uploadTitle": "电风扇遥控失灵",
+    "description": "本视频讲解一分钟，让失灵的电风扇遥控器起死回生 炎热夏日，电风扇遥控器却突然失灵？别着急！本视频教你在一分钟内，不花冤枉钱，自己动手轻松搞定常见的遥控器失灵问题，让风扇迅速恢复正常运转，超实用生活小技能，赶紧码住！ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "电风扇 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:54:37.454Z",
+    "finishedAt": "2026-07-26T06:55:16.912Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo27",
+      "projectName": "memberRepairVideo27"
+    },
+    "error": ""
+  },
+  {
+    "index": "28",
+    "device": "电风扇",
+    "fault": "风量忽大忽小",
+    "file": "28_电风扇_风量忽大忽小.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\28_电风扇_风量忽大忽小.mp4",
+    "uploadTitle": "电风扇风量忽大忽小",
+    "description": "本视频讲解奥克斯电风扇维修，解决乱跳档问题，适合家电维修教学参考。",
+    "deviceModel": "电风扇 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:55:16.912Z",
+    "finishedAt": "2026-07-26T06:56:12.276Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo28",
+      "projectName": "memberRepairVideo28"
+    },
+    "error": ""
+  },
+  {
+    "index": "29",
+    "device": "洗衣机",
+    "fault": "不进水",
+    "file": "29_洗衣机_不进水.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\29_洗衣机_不进水.mp4",
+    "uploadTitle": "洗衣机不进水",
+    "description": "本视频讲解七分钟会修波轮洗衣机，没劲打滑 噪音大 撞桶 不进水 不排水 不工作 漏水 不通电。 维修教学，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:56:12.276Z",
+    "finishedAt": "2026-07-26T06:57:46.051Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo29",
+      "projectName": "memberRepairVideo29"
+    },
+    "error": ""
+  },
+  {
+    "index": "30",
+    "device": "洗衣机",
+    "fault": "不排水",
+    "file": "30_洗衣机_不排水.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\30_洗衣机_不排水.mp4",
+    "uploadTitle": "洗衣机不排水",
+    "description": "本视频讲解滚筒洗衣机不排水如何判断排水泵是不工作还是堵塞了 滚筒洗衣机不排水如何判断排水泵是不工作还是堵塞了 西门子 美的 小天鹅 海尔 松下 惠而浦 荣事达 TCL LG三洋 三星 海信 维修教学，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:57:46.052Z",
+    "finishedAt": "2026-07-26T06:57:54.531Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo30",
+      "projectName": "memberRepairVideo30"
+    },
+    "error": ""
+  },
+  {
+    "index": "31",
+    "device": "洗衣机",
+    "fault": "不脱水",
+    "file": "31_洗衣机_不脱水.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\31_洗衣机_不脱水.mp4",
+    "uploadTitle": "洗衣机不脱水",
+    "description": "本视频讲解洗衣机E2不脱水？这故障超常见还最好修！ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:57:54.532Z",
+    "finishedAt": "2026-07-26T06:58:04.650Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo31",
+      "projectName": "memberRepairVideo31"
+    },
+    "error": ""
+  },
+  {
+    "index": "32",
+    "device": "洗衣机",
+    "fault": "洗涤无力",
+    "file": "32_洗衣机_洗涤无力.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\32_洗衣机_洗涤无力.mp4",
+    "uploadTitle": "洗衣机洗涤无力",
+    "description": "本视频讲解波轮洗衣机洗涤无力，启动电容更换和皮带松了怎么办？ 美的洗衣机，海尔洗衣机，小天鹅洗衣机，西门子洗衣机，惠而浦洗衣机，松下洗衣机 维修教学，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:58:04.651Z",
+    "finishedAt": "2026-07-26T06:58:15.872Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo32",
+      "projectName": "memberRepairVideo32"
+    },
+    "error": ""
+  },
+  {
+    "index": "33",
+    "device": "洗衣机",
+    "fault": "漏水",
+    "file": "33_洗衣机_漏水.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\33_洗衣机_漏水.mp4",
+    "uploadTitle": "洗衣机漏水",
+    "description": "本视频讲解洗衣机漏水，机器不存水，快速维修，，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:58:15.873Z",
+    "finishedAt": "2026-07-26T06:58:23.608Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo33",
+      "projectName": "memberRepairVideo33"
+    },
+    "error": ""
+  },
+  {
+    "index": "34",
+    "device": "洗衣机",
+    "fault": "震动很大",
+    "file": "34_洗衣机_震动很大.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\34_洗衣机_震动很大.mp4",
+    "uploadTitle": "洗衣机震动很大",
+    "description": "本视频讲解全自动波轮洗衣机噪声大、晃动怎么办？分享怎样更换减震吊杆。 维修教学，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:58:23.609Z",
+    "finishedAt": "2026-07-26T06:58:33.640Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo34",
+      "projectName": "memberRepairVideo34"
+    },
+    "error": ""
+  },
+  {
+    "index": "35",
+    "device": "洗衣机",
+    "fault": "门打不开",
+    "file": "35_洗衣机_门打不开.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\35_洗衣机_门打不开.mp4",
+    "uploadTitle": "洗衣机门打不开",
+    "description": "本视频讲解滚筒洗衣机门打不开，也不带应急拉环，别急‼️分分钟教会你 维修教学，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:58:33.641Z",
+    "finishedAt": "2026-07-26T06:58:36.571Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo35",
+      "projectName": "memberRepairVideo35"
+    },
+    "error": ""
+  },
+  {
+    "index": "36",
+    "device": "洗衣机",
+    "fault": "显示 E1/E2/E3",
+    "file": "36_洗衣机_显示 E1_E2_E3.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\36_洗衣机_显示 E1_E2_E3.mp4",
+    "uploadTitle": "洗衣机显示 E1/E2/E3",
+    "description": "本视频讲解滚筒洗衣机报警E2/E21，并不是洗衣机坏了，假性故障自己就可以处理。 维修教学，适合家电维修教学参考。",
+    "deviceModel": "洗衣机 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:58:36.571Z",
+    "finishedAt": "2026-07-26T06:58:50.209Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo36",
+      "projectName": "memberRepairVideo36"
+    },
+    "error": ""
+  },
+  {
+    "index": "37",
+    "device": "冰箱",
+    "fault": "不制冷",
+    "file": "37_冰箱_不制冷.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\37_冰箱_不制冷.mp4",
+    "uploadTitle": "冰箱不制冷",
+    "description": "本视频讲解冰箱不制冷怎么办？ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:58:50.209Z",
+    "finishedAt": "2026-07-26T06:59:24.939Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo37",
+      "projectName": "memberRepairVideo37"
+    },
+    "error": ""
+  },
+  {
+    "index": "38",
+    "device": "冰箱",
+    "fault": "冷藏不冷/冷冻正常",
+    "file": "38_冰箱_冷藏不冷_冷冻正常.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\38_冰箱_冷藏不冷_冷冻正常.mp4",
+    "uploadTitle": "冰箱冷藏不冷/冷冻正常",
+    "description": "本视频讲解风冷冰箱冷藏室不制冷的维修思路，看完你也会修，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:59:24.940Z",
+    "finishedAt": "2026-07-26T06:59:55.646Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo38",
+      "projectName": "memberRepairVideo38"
+    },
+    "error": ""
+  },
+  {
+    "index": "39",
+    "device": "冰箱",
+    "fault": "结霜严重",
+    "file": "39_冰箱_结霜严重.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\39_冰箱_结霜严重.mp4",
+    "uploadTitle": "冰箱结霜严重",
+    "description": "本视频讲解密封条老化不仅耗电，还会让冰箱疯狂结冰 维修教学，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T06:59:55.646Z",
+    "finishedAt": "2026-07-26T07:00:10.621Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo39",
+      "projectName": "memberRepairVideo39"
+    },
+    "error": ""
+  },
+  {
+    "index": "40",
+    "device": "冰箱",
+    "fault": "压缩机一直工作不停",
+    "file": "40_冰箱_压缩机一直工作不停.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\40_冰箱_压缩机一直工作不停.mp4",
+    "uploadTitle": "冰箱压缩机一直工作不停",
+    "description": "本视频讲解冰箱压缩机不停机一直工作特别厚的冰，这个冰柜怎么修呢？ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:00:10.622Z",
+    "finishedAt": "2026-07-26T07:00:20.251Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo40",
+      "projectName": "memberRepairVideo40"
+    },
+    "error": ""
+  },
+  {
+    "index": "41",
+    "device": "冰箱",
+    "fault": "冰箱噪音大",
+    "file": "41_冰箱_冰箱噪音大.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\41_冰箱_冰箱噪音大.mp4",
+    "uploadTitle": "冰箱冰箱噪音大",
+    "description": "本视频讲解冰箱噪音大，打开冰箱门就不响了，这种基本是风扇损坏或者风扇打到冰了 维修教学，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:00:20.252Z",
+    "finishedAt": "2026-07-26T07:00:28.994Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo41",
+      "projectName": "memberRepairVideo41"
+    },
+    "error": ""
+  },
+  {
+    "index": "42",
+    "device": "冰箱",
+    "fault": "冷藏室积水",
+    "file": "42_冰箱_冷藏室积水.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\42_冰箱_冷藏室积水.mp4",
+    "uploadTitle": "冰箱冷藏室积水",
+    "description": "本视频讲解冰箱保鲜积水，底座淌水，一分钟教会你修冰箱积水。 维修教学，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:00:28.995Z",
+    "finishedAt": "2026-07-26T07:00:38.288Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo42",
+      "projectName": "memberRepairVideo42"
+    },
+    "error": ""
+  },
+  {
+    "index": "43",
+    "device": "冰箱",
+    "fault": "灯不亮",
+    "file": "43_冰箱_灯不亮.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\43_冰箱_灯不亮.mp4",
+    "uploadTitle": "冰箱灯不亮",
+    "description": "本视频讲解一分钟学会修冰箱门开灯不亮 维修教学，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:00:38.288Z",
+    "finishedAt": "2026-07-26T07:00:45.341Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo43",
+      "projectName": "memberRepairVideo43"
+    },
+    "error": ""
+  },
+  {
+    "index": "44",
+    "device": "冰箱",
+    "fault": "外壳发烫",
+    "file": "44_冰箱_外壳发烫.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\44_冰箱_外壳发烫.mp4",
+    "uploadTitle": "冰箱外壳发烫",
+    "description": "本视频讲解冰箱外壳发烫正常吗？很多人都搞错了，看完终于放心了 维修教学，适合家电维修教学参考。",
+    "deviceModel": "冰箱 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:00:45.342Z",
+    "finishedAt": "2026-07-26T07:00:52.812Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo44",
+      "projectName": "memberRepairVideo44"
+    },
+    "error": ""
+  },
+  {
+    "index": "45",
+    "device": "空调",
+    "fault": "不制冷",
+    "file": "45_空调_不制冷.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\45_空调_不制冷.mp4",
+    "uploadTitle": "空调不制冷",
+    "description": "本视频讲解空调清洗完不制冷 你一看就会 维修教学，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:00:52.813Z",
+    "finishedAt": "2026-07-26T07:01:01.120Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo45",
+      "projectName": "memberRepairVideo45"
+    },
+    "error": ""
+  },
+  {
+    "index": "46",
+    "device": "空调",
+    "fault": "出风小",
+    "file": "46_空调_出风小.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\46_空调_出风小.mp4",
+    "uploadTitle": "空调出风小",
+    "description": "本视频讲解零基础也能自己清洗空调，洗完不会坏，吹出来的空气都清新了✨ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:01:01.121Z",
+    "finishedAt": "2026-07-26T07:01:16.391Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo46",
+      "projectName": "memberRepairVideo46"
+    },
+    "error": ""
+  },
+  {
+    "index": "47",
+    "device": "空调",
+    "fault": "漏水",
+    "file": "47_空调_漏水.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\47_空调_漏水.mp4",
+    "uploadTitle": "空调漏水",
+    "description": "本视频讲解空调排水管堵死了，我们该怎么办？ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:01:16.392Z",
+    "finishedAt": "2026-07-26T07:01:32.816Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo47",
+      "projectName": "memberRepairVideo47"
+    },
+    "error": ""
+  },
+  {
+    "index": "48",
+    "device": "空调",
+    "fault": "外机不转",
+    "file": "48_空调_外机不转.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\48_空调_外机不转.mp4",
+    "uploadTitle": "空调外机不转",
+    "description": "本视频讲解室外风机不转，不散热，并接个电容就好了 维修教学，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:01:32.817Z",
+    "finishedAt": "2026-07-26T07:04:03.809Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo48",
+      "projectName": "memberRepairVideo48"
+    },
+    "error": ""
+  },
+  {
+    "index": "49",
+    "device": "空调",
+    "fault": "开机跳闸",
+    "file": "49_空调_开机跳闸.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\49_空调_开机跳闸.mp4",
+    "uploadTitle": "空调开机跳闸",
+    "description": "本视频讲解空调开机就跳闸现场实操维修经验分享 @DOU+小助手 @鑫海家电维修2，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:04:03.810Z",
+    "finishedAt": "2026-07-26T07:04:17.777Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo49",
+      "projectName": "memberRepairVideo49"
+    },
+    "error": ""
+  },
+  {
+    "index": "50",
+    "device": "空调",
+    "fault": "制热差",
+    "file": "50_空调_制热差.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\50_空调_制热差.mp4",
+    "uploadTitle": "空调制热差",
+    "description": "本视频讲解空调吹风没劲、制冷制热都不给力，多半不是机器坏了，很可能是进风口滤网被灰尘堵死，空气根本循环不起来。把滤网拆下来清洗干净，风量马上就恢复正常，制冷制热效果也会立刻回来。家里空调效果不好时，先别着急叫维修师傅，这个小问题自己动手就能解决。，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:04:17.778Z",
+    "finishedAt": "2026-07-26T07:04:28.813Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo50",
+      "projectName": "memberRepairVideo50"
+    },
+    "error": ""
+  },
+  {
+    "index": "51",
+    "device": "空调",
+    "fault": "遥控无反应",
+    "file": "51_空调_遥控无反应.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\51_空调_遥控无反应.mp4",
+    "uploadTitle": "空调遥控无反应",
+    "description": "本视频讲解空调不能遥控开关机，接收板更换教程，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:04:28.814Z",
+    "finishedAt": "2026-07-26T07:04:57.814Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo51",
+      "projectName": "memberRepairVideo51"
+    },
+    "error": ""
+  },
+  {
+    "index": "52",
+    "device": "空调",
+    "fault": "有异味",
+    "file": "52_空调_有异味.mp4",
+    "filePath": "D:\\桌面\\fixoooooooo1\\repair-video-douyin\\52_空调_有异味.mp4",
+    "uploadTitle": "空调有异味",
+    "description": "本视频讲解最近发现空调吹出来的风带着酸臭味，翻了不少经验帖试了试，居然真的管用！分享给也遇到同样问题的朋友 1️⃣ 先把空调滤网拆下来，用温水加中性洗涤剂泡15分钟，冲干净晾干再装回去 2️⃣ 打开空调内机面板，用专用清洁剂喷在蒸发器上，开制冷模式运行15分钟 3️⃣ 关空调后，开风扇模式吹10分钟，把内部水分吹干 亲测这三招下来，酸臭味基本就消失啦～ 维修教学，适合家电维修教学参考。",
+    "deviceModel": "空调 通用型号",
+    "status": "success",
+    "startedAt": "2026-07-26T07:04:57.815Z",
+    "finishedAt": "2026-07-26T07:05:13.518Z",
+    "response": {
+      "success": true,
+      "message": "维修教学视频提交成功，等待管理员审核",
+      "projectId": "memberRepairVideo52",
+      "projectName": "memberRepairVideo52"
+    },
+    "error": ""
+  }
+]
