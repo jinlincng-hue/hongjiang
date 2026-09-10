@@ -1824,32 +1824,6 @@ main {
   margin-top: 18px;
 }
 
-.school-feed-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
-  align-items: center;
-  margin-bottom: 14px;
-}
-
-.school-feed-head > div:first-child {
-  display: grid;
-  gap: 4px;
-}
-
-.school-feed-head strong {
-  color: #171717;
-  font-size: 26px;
-  line-height: 1.2;
-  font-weight: 950;
-}
-
-.school-feed-head span {
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 800;
-}
-
 .school-video-grid {
   columns: 5 188px;
   column-gap: 12px;
@@ -1920,26 +1894,16 @@ main {
   border-left: 9px solid #fff;
 }
 
-.school-video-cover img {
+.school-video-cover img,
+.school-video-cover video {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
-.school-video-cover em {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  min-height: 24px;
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 0 9px;
-  background: rgba(230, 0, 18, 0.92);
-  color: #fff;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 950;
+.school-video-cover video {
+  width: 100%;
+  height: auto;
 }
 
 .school-video-card strong {
@@ -2012,25 +1976,6 @@ main {
   color: var(--red);
   font-size: 13px;
   font-weight: 900;
-}
-
-.school-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 14px 0;
-}
-
-.school-tags button {
-  border: 0;
-  border-radius: 999px;
-  min-height: 30px;
-  padding: 0 12px;
-  background: var(--red-soft);
-  color: var(--red);
-  font-size: 13px;
-  font-weight: 900;
-  cursor: pointer;
 }
 
 .school-course-list {

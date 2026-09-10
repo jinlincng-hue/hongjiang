@@ -483,7 +483,6 @@ function App() {
             volunteerUser={volunteerUser}
             videoId={trainingVideoId}
             query={trainingSearchQuery}
-            setQuery={setTrainingSearchQuery}
             onOpenVideo={navigateTrainingVideo}
             onBack={navigateTraining}
           />
@@ -1846,7 +1845,7 @@ function VolunteerDashboard({ volunteerUser, openFlow, onTrainingOpen, onVolunte
   );
 }
 
-function TrainingRoute({ volunteerUser, videoId, query, setQuery, onOpenVideo, onBack }) {
+function TrainingRoute({ volunteerUser, videoId, query, onOpenVideo, onBack }) {
   const videoRef = useRef(null);
   const watchRef = useRef({ pendingSeconds: 0, lastWallTime: Date.now(), lastVideoTime: 0, reporting: false });
   const [courses, setCourses] = useState([]);
@@ -1859,11 +1858,6 @@ function TrainingRoute({ volunteerUser, videoId, query, setQuery, onOpenVideo, o
   const [detailLoading, setDetailLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [commentMessage, setCommentMessage] = useState("");
-
-  const categories = useMemo(() => {
-    const values = Array.from(new Set(courses.map((course) => course.category).filter(Boolean)));
-    return values.slice(0, 6);
-  }, [courses]);
 
   const activeClip = clips.find((clip) => clip.videoUrl) || null;
 
@@ -2053,20 +2047,6 @@ function TrainingRoute({ volunteerUser, videoId, query, setQuery, onOpenVideo, o
 
       {!videoId ? (
         <section className="school-video-feed" aria-label="教学视频">
-          <div className="school-feed-head">
-            <div>
-              <strong>视频库</strong>
-              <span>{loading ? "同步中" : `${courses.length} 个教学视频`}</span>
-            </div>
-            <div className="school-tags">
-              {categories.map((category) => (
-                <button type="button" key={category} onClick={() => setQuery(category)}>
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {loading ? (
             <div className="school-empty">正在读取教学视频...</div>
           ) : courses.length ? (
@@ -2091,10 +2071,11 @@ function TrainingRoute({ volunteerUser, videoId, query, setQuery, onOpenVideo, o
                           }
                         }}
                       />
+                    ) : course.videoUrl ? (
+                      <video src={course.videoUrl} muted playsInline preload="metadata" />
                     ) : (
                       <span>播放</span>
                     )}
-                    <em>{course.category || "维修教学"}</em>
                   </span>
                   <strong>{course.title}</strong>
                   <small>{course.device_model || course.uploader_name || "教学视频"}</small>
@@ -2116,7 +2097,7 @@ function TrainingRoute({ volunteerUser, videoId, query, setQuery, onOpenVideo, o
       ) : (
         <div className="school-main">
           <button className="school-back-button" type="button" onClick={onBack}>
-            返回视频库
+            返回学堂
           </button>
           <article className="school-player-card">
             <div className="school-player-head">
