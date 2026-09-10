@@ -1985,13 +1985,25 @@ main {
 
 .school-parts-entry {
   margin-top: 14px;
+  width: 100%;
+  border: 0;
   border-radius: 16px;
   padding: 14px;
   display: flex;
   gap: 12px;
   align-items: center;
+  text-align: left;
   background: #1f1f1f;
   color: #fff;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.school-parts-entry:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(80, 22, 18, 0.16);
 }
 
 .school-parts-entry svg {
@@ -2014,6 +2026,185 @@ main {
 .school-main {
   display: grid;
   gap: 18px;
+}
+
+.parts-route {
+  display: grid;
+  gap: 18px;
+}
+
+.parts-hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(280px, 520px);
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid #f0d8d5;
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(230, 0, 18, 0.08), rgba(255, 255, 255, 0.96) 42%),
+    #fff;
+  box-shadow: 0 18px 48px rgba(129, 31, 22, 0.09);
+}
+
+.parts-hero span {
+  display: block;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.parts-hero h1 {
+  margin: 4px 0 0;
+  font-size: 32px;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.parts-search {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 7px 6px 16px;
+  border: 1px solid #f1d5d1;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.parts-search svg {
+  color: var(--red);
+}
+
+.parts-search input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.parts-search input::placeholder {
+  color: #9b8b88;
+}
+
+.parts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.parts-card {
+  overflow: hidden;
+  border: 1px solid #f0d8d5;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(111, 35, 28, 0.08);
+}
+
+.parts-cover {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  background: #fff8f7;
+  color: var(--red);
+}
+
+.parts-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.parts-cover.missing::after {
+  content: "配件";
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(230, 0, 18, 0.09);
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.parts-card-body {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.parts-card-title {
+  display: grid;
+  gap: 8px;
+}
+
+.parts-card-title strong {
+  min-height: 42px;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.parts-card-title span {
+  justify-self: start;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--red-soft);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.parts-card-body p {
+  min-height: 36px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.parts-meta {
+  display: grid;
+  gap: 6px;
+  color: #6d625f;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.parts-meta span {
+  min-width: 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.parts-meta svg {
+  flex: 0 0 auto;
+  color: var(--red);
+}
+
+.parts-price {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  color: var(--red);
+}
+
+.parts-price strong {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.parts-price span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .school-player-card,
@@ -4974,5 +5165,54 @@ main {
     height: 100%;
     margin: 0;
     padding: 16px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .parts-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .parts-hero {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 18px;
+  }
+
+  .parts-hero h1 {
+    font-size: 26px;
+  }
+
+  .parts-search {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-height: 50px;
+  }
+
+  .parts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .parts-card-body {
+    padding: 10px;
+  }
+
+  .parts-card-title strong {
+    min-height: 40px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .parts-search {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .parts-search .solid-button {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 }

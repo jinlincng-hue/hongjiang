@@ -12,11 +12,13 @@ import {
   KeyRound,
   MapPin,
   MonitorSmartphone,
+  PackageSearch,
   Search,
   SendHorizontal,
   ShieldCheck,
   Smartphone,
   Sparkles,
+  Store,
   UserCheck,
   UsersRound,
   Wrench,
@@ -185,6 +187,7 @@ function App() {
   const trainingVideoId = routePath.startsWith("/training/")
     ? decodeURIComponent(routePath.replace(/^\/training\//, ""))
     : "";
+  const isPartsLibraryRoute = routePath === "/parts-library";
   const isVolunteerRoute = routePath === "/volunteer";
   const isVolunteerRankingsRoute = routePath === "/volunteer-rankings";
   const isActivityRoute = routePath.startsWith("/activity/");
@@ -297,6 +300,13 @@ function App() {
     window.history.pushState({}, "", nextPath);
     setRoutePath(nextPath);
     setActiveSection("#技能培训");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function navigatePartsLibrary() {
+    window.history.pushState({}, "", "/parts-library");
+    setRoutePath("/parts-library");
+    setActiveSection("#配件库");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -450,7 +460,7 @@ function App() {
             )}
           </div>
         </div>
-        {searchOpen && !isTrainingRoute && (
+        {searchOpen && !isTrainingRoute && !isPartsLibraryRoute && (
           <div className="search-panel">
             <Search size={18} />
             <input
@@ -473,8 +483,11 @@ function App() {
             videoId={trainingVideoId}
             query={trainingSearchQuery}
             onOpenVideo={navigateTrainingVideo}
+            onOpenParts={navigatePartsLibrary}
             onBack={navigateTraining}
           />
+        ) : isPartsLibraryRoute ? (
+          <PartsLibraryRoute onBack={navigateTraining} />
         ) : isVolunteerRoute ? (
           <VolunteerDashboard
             volunteerUser={volunteerUser}
@@ -1756,7 +1769,7 @@ function VolunteerDashboard({ volunteerUser, openFlow, onTrainingOpen, onVolunte
   );
 }
 
-function TrainingRoute({ volunteerUser, videoId, query, onOpenVideo, onBack }) {
+function TrainingRoute({ volunteerUser, videoId, query, onOpenVideo, onOpenParts, onBack }) {
   const videoRef = useRef(null);
   const watchRef = useRef({ pendingSeconds: 0, lastWallTime: Date.now(), lastVideoTime: 0, reporting: false });
   const [courses, setCourses] = useState([]);
@@ -1997,13 +2010,13 @@ function TrainingRoute({ volunteerUser, videoId, query, onOpenVideo, onBack }) {
             <div className="school-empty">暂无匹配视频</div>
           )}
 
-          <div className="school-parts-entry">
+          <button className="school-parts-entry" type="button" onClick={onOpenParts}>
             <Wrench size={20} />
             <div>
               <strong>配件库</strong>
-              <span>接口预留，待同步模块接入</span>
+              <span>查找维修常用配件</span>
             </div>
-          </div>
+          </button>
         </section>
       ) : (
         <div className="school-main">
@@ -2092,6 +2105,129 @@ function TrainingRoute({ volunteerUser, videoId, query, onOpenVideo, onBack }) {
             </div>
           </article>
         </div>
+      )}
+    </section>
+  );
+}
+
+function PartsLibraryRoute({ onBack }) {
+  const [query, setQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState("");
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    const controller = new AbortController();
+    setLoading(true);
+    setMessage("");
+
+    const params = new URLSearchParams({ limit: "36" });
+    if (submittedQuery.trim()) params.set("q", submittedQuery.trim());
+
+    fetch(`/api/parts/products?${params.toString()}`, { signal: controller.signal })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.message || "配件库暂不可用");
+        if (cancelled) return;
+        setProducts(Array.isArray(data.products) ? data.products : []);
+        setMessage(data.message || "");
+      })
+      .catch((error) => {
+        if (cancelled || error.name === "AbortError") return;
+        setProducts([]);
+        setMessage(error.message || "配件库暂不可用");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+    };
+  }, [submittedQuery]);
+
+  function submitSearch(event) {
+    event.preventDefault();
+    setSubmittedQuery(query.trim());
+  }
+
+  return (
+    <section className="parts-route" id="配件库" aria-labelledby="parts-title">
+      <div className="parts-hero">
+        <button className="school-back-button" type="button" onClick={onBack}>
+          返回学堂
+        </button>
+        <div>
+          <span>红匠学堂</span>
+          <h1 id="parts-title">配件库</h1>
+        </div>
+        <form className="parts-search" onSubmit={submitSearch}>
+          <Search size={19} />
+          <input
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜索屏幕、电池、电饭煲配件"
+          />
+          <button className="solid-button small" type="submit">
+            搜索
+          </button>
+        </form>
+      </div>
+
+      {message ? <div className="school-message">{message}</div> : null}
+
+      {loading ? (
+        <div className="school-empty large">正在读取配件库...</div>
+      ) : products.length ? (
+        <div className="parts-grid">
+          {products.map((product) => (
+            <article className="parts-card" key={product.id}>
+              <div className="parts-cover">
+                {product.imageUrl ? (
+                  <img
+                    src={product.imageUrl}
+                    alt=""
+                    loading="lazy"
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                      event.currentTarget.parentElement?.classList.add("missing");
+                    }}
+                  />
+                ) : (
+                  <PackageSearch size={34} />
+                )}
+              </div>
+              <div className="parts-card-body">
+                <div className="parts-card-title">
+                  <strong>{product.name}</strong>
+                  <span>{product.stock_status || product.condition || "可咨询"}</span>
+                </div>
+                <p>{product.spec || product.description || product.category_name}</p>
+                <div className="parts-meta">
+                  <span>
+                    <MapPin size={14} />
+                    {product.village || product.delivery_area || "本地"}
+                  </span>
+                  {product.shop_name ? (
+                    <span>
+                      <Store size={14} />
+                      {product.shop_name}
+                    </span>
+                  ) : null}
+                </div>
+                <div className="parts-price">
+                  <strong>{product.price ? `¥${Number(product.price).toFixed(2)}` : "面议"}</strong>
+                  <span>/{product.unit || "件"}</span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="school-empty large">暂无匹配配件</div>
       )}
     </section>
   );

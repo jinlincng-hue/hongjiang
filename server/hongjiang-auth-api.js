@@ -1,7 +1,7 @@
 import http from "node:http";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { dirname, join } from "node:path";
+import { dirname, extname, join, resolve } from "node:path";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -15,6 +15,10 @@ const DEFAULT_DATA_DIR =
 const LOCAL_DEMO_MODE = process.platform === "win32" && process.env.NODE_ENV !== "production";
 const DB_PATH = process.env.DB_PATH || join(DEFAULT_DATA_DIR, "hongjiang-auth.sqlite");
 const UPLOAD_DIR = process.env.UPLOAD_DIR || join(DEFAULT_DATA_DIR, "uploads");
+const DEFAULT_PARTS_ROOT =
+  process.platform === "win32" ? join(PROJECT_ROOT, "parts-library-work") : "/www/wwwroot/parts-library";
+const PARTS_DB_PATH = process.env.PARTS_DB_PATH || join(DEFAULT_PARTS_ROOT, "data", "fixone-parts.sqlite");
+const PARTS_PUBLIC_DIR = process.env.PARTS_PUBLIC_DIR || join(DEFAULT_PARTS_ROOT, "public");
 const JWT_SECRET =
   process.env.JWT_SECRET || (LOCAL_DEMO_MODE ? "hongjiang-local-demo-jwt-secret-please-change-before-production" : "");
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || "";
@@ -73,7 +77,7 @@ function getPythonCommand() {
   return pythonCommand;
 }
 
-function sqliteViaPython(sql, jsonMode = false) {
+function sqliteViaPython(sql, jsonMode = false, dbPath = DB_PATH) {
   const command = getPythonCommand();
   if (!command) throw new Error("sqlite3 command not found and Python sqlite3 fallback is unavailable");
   const runner = `
@@ -98,8 +102,9 @@ try:
 finally:
     conn.close()
 `;
-  const result = spawnSync(command, ["-c", runner, DB_PATH, jsonMode ? "json" : "exec"], {
+  const result = spawnSync(command, ["-c", runner, dbPath, jsonMode ? "json" : "exec"], {
     encoding: "utf8",
+    env: { ...process.env, PYTHONIOENCODING: "utf-8" },
     input: sql,
     maxBuffer: 1024 * 1024 * 10,
   });
@@ -120,6 +125,18 @@ function sqliteJson(sql) {
   const result = spawnSync("sqlite3", ["-json", DB_PATH, sql], { encoding: "utf8" });
   if (result.error?.code === "ENOENT") {
     const output = sqliteViaPython(sql, true);
+    return output ? JSON.parse(output) : [];
+  }
+  if (result.status !== 0) {
+    throw new Error(result.stderr || "sqlite failed");
+  }
+  return result.stdout.trim() ? JSON.parse(result.stdout) : [];
+}
+
+function sqliteJsonFrom(dbPath, sql) {
+  const result = spawnSync("sqlite3", ["-json", dbPath, sql], { encoding: "utf8" });
+  if (result.error?.code === "ENOENT") {
+    const output = sqliteViaPython(sql, true, dbPath);
     return output ? JSON.parse(output) : [];
   }
   if (result.status !== 0) {
@@ -1132,6 +1149,112 @@ async function handleCreateTrainingCourseComment(req, res, projectId) {
   });
 }
 
+function normalizePartsAssetUrl(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (!raw.startsWith("/uploads/products/") && !raw.startsWith("/assets/images/")) return "";
+  return `/api/parts/assets?path=${encodeURIComponent(raw)}`;
+}
+
+function handlePartsProducts(req, res) {
+  if (!existsSync(PARTS_DB_PATH)) {
+    return json(res, 200, { ok: true, products: [], message: "配件库数据暂未同步到本机" });
+  }
+
+  const requestUrl = new URL(req.url, "http://localhost");
+  const query = String(requestUrl.searchParams.get("q") || "").trim().slice(0, 60);
+  const limit = Math.min(Math.max(Number(requestUrl.searchParams.get("limit") || 36), 1), 60);
+  const where = [
+    "p.status = 'active'",
+    "(p.publication_status IS NULL OR p.publication_status = 'published')",
+  ];
+
+  if (query) {
+    const pattern = q(`%${query}%`);
+    where.push(`(p.name LIKE ${pattern} OR p.description LIKE ${pattern} OR p.spec LIKE ${pattern} OR c.name LIKE ${pattern} OR s.name LIKE ${pattern})`);
+  }
+
+  const rows = sqliteJsonFrom(
+    PARTS_DB_PATH,
+    `
+      SELECT
+        p.id,
+        p.name,
+        p.image,
+        p.price,
+        p.unit,
+        p.spec,
+        p.description,
+        p.stock_status,
+        p.condition,
+        p.village,
+        p.delivery_area,
+        p.updated_at,
+        c.name AS category_name,
+        s.name AS shop_name,
+        s.verified AS shop_verified,
+        (
+          SELECT image_path
+          FROM product_images pi
+          WHERE pi.product_id = p.id
+          ORDER BY pi.sort_order ASC, pi.id ASC
+          LIMIT 1
+        ) AS primary_image
+      FROM products p
+      LEFT JOIN categories c ON c.id = p.category_id
+      LEFT JOIN shops s ON s.id = p.shop_id
+      WHERE ${where.join(" AND ")}
+      ORDER BY p.updated_at DESC, p.id DESC
+      LIMIT ${limit};
+    `,
+  );
+
+  const products = rows.map((row) => ({
+    id: Number(row.id || 0),
+    name: String(row.name || "维修配件"),
+    imageUrl: normalizePartsAssetUrl(row.primary_image || row.image),
+    price: Number(row.price || 0),
+    unit: String(row.unit || "件"),
+    spec: String(row.spec || ""),
+    description: String(row.description || ""),
+    stock_status: String(row.stock_status || ""),
+    condition: String(row.condition || ""),
+    village: String(row.village || ""),
+    delivery_area: String(row.delivery_area || ""),
+    category_name: String(row.category_name || "维修配件"),
+    shop_name: String(row.shop_name || ""),
+    shop_verified: Number(row.shop_verified || 0),
+  }));
+
+  return json(res, 200, { ok: true, products });
+}
+
+function handlePartsAsset(req, res) {
+  const requestUrl = new URL(req.url, "http://localhost");
+  const rawPath = String(requestUrl.searchParams.get("path") || "").split(/[?#]/)[0];
+  if (!rawPath.startsWith("/uploads/products/") && !rawPath.startsWith("/assets/images/")) {
+    return json(res, 404, { ok: false, message: "Not found" });
+  }
+
+  const filePath = resolve(PARTS_PUBLIC_DIR, rawPath.replace(/^\/+/, ""));
+  const publicRoot = resolve(PARTS_PUBLIC_DIR);
+  if (!filePath.startsWith(publicRoot + "\\" ) && !filePath.startsWith(publicRoot + "/")) {
+    return json(res, 404, { ok: false, message: "Not found" });
+  }
+  if (!existsSync(filePath)) return json(res, 404, { ok: false, message: "Not found" });
+
+  const ext = extname(filePath).toLowerCase();
+  const contentType =
+    ext === ".png"
+      ? "image/png"
+      : ext === ".webp"
+        ? "image/webp"
+        : ext === ".gif"
+          ? "image/gif"
+          : "image/jpeg";
+  return sendFile(res, 200, readFileSync(filePath), contentType);
+}
+
 function handlePublicStats(req, res) {
   const userStats = sqliteJson(`
     SELECT COUNT(*) AS volunteer_count
@@ -1512,6 +1635,12 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === "GET" && req.url === "/api/training/courses") {
       return await handleTrainingCourses(req, res);
+    }
+    if (req.method === "GET" && String(req.url || "").startsWith("/api/parts/products")) {
+      return handlePartsProducts(req, res);
+    }
+    if (req.method === "GET" && String(req.url || "").startsWith("/api/parts/assets")) {
+      return handlePartsAsset(req, res);
     }
     const trainingCommentsMatch = String(req.url || "").match(/^\/api\/training\/courses\/([^/]+)\/comments$/);
     if (trainingCommentsMatch && req.method === "GET") {
