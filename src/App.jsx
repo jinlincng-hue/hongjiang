@@ -1846,7 +1846,7 @@ function TrainingRoute({ volunteerUser }) {
     })
       .then(async (response) => {
         const data = await response.json();
-        if (!response.ok || !data.ok) throw new Error(data.message || "课程加载失败");
+        if (!response.ok || !data.ok) throw new Error(data.message || "教学视频加载失败");
         if (cancelled) return;
         const nextCourses = Array.isArray(data.courses) ? data.courses : [];
         setCourses(nextCourses);
@@ -1855,7 +1855,7 @@ function TrainingRoute({ volunteerUser }) {
         );
       })
       .catch((error) => {
-        if (!cancelled && error.name !== "AbortError") setMessage(error.message || "课程加载失败");
+        if (!cancelled && error.name !== "AbortError") setMessage(error.message || "教学视频加载失败");
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -1875,7 +1875,7 @@ function TrainingRoute({ volunteerUser }) {
     Promise.all([
       fetch(`/api/training/courses/${encodeURIComponent(selectedCourseId)}`).then(async (response) => {
         const data = await response.json();
-        if (!response.ok || !data.ok) throw new Error(data.message || "课程详情加载失败");
+        if (!response.ok || !data.ok) throw new Error(data.message || "教学视频加载失败");
         return data;
       }),
       fetch(`/api/training/courses/${encodeURIComponent(selectedCourseId)}/comments`).then(async (response) => {
@@ -1891,7 +1891,7 @@ function TrainingRoute({ volunteerUser }) {
         setComments(Array.isArray(commentData.comments) ? commentData.comments : []);
       })
       .catch((error) => {
-        if (!cancelled) setMessage(error.message || "课程详情加载失败");
+        if (!cancelled) setMessage(error.message || "教学视频加载失败");
       })
       .finally(() => {
         if (!cancelled) setDetailLoading(false);
@@ -1929,7 +1929,7 @@ function TrainingRoute({ volunteerUser }) {
         body: JSON.stringify({
           source: "fixone",
           projectId: selectedCourse?.id || selectedCourseId,
-          projectTitle: selectedCourse?.title || "红匠学堂课程",
+          projectTitle: selectedCourse?.title || "红匠学堂教学视频",
           clipTitle: activeClip?.clipTitle || selectedCourse?.title || "维修教学视频",
           durationSeconds: seconds,
         }),
@@ -2011,12 +2011,11 @@ function TrainingRoute({ volunteerUser }) {
         <div>
           <span className="training-eyebrow">红匠学堂</span>
           <h1 id="training-route-title">维修技能学习板块</h1>
-          <p>课程内容读取自视修工坊，学习时长进入红匠排行，评论同步回视修工坊。</p>
         </div>
         <div className="school-hero-actions">
           <label className="school-search">
             <Search size={18} />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索维修课程" />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索教学视频" />
           </label>
         </div>
       </div>
@@ -2024,10 +2023,10 @@ function TrainingRoute({ volunteerUser }) {
       {message ? <div className="school-message">{message}</div> : null}
 
       <div className="school-layout">
-        <aside className="school-sidebar" aria-label="课程列表">
+        <aside className="school-sidebar" aria-label="教学视频列表">
           <div className="school-sidebar-head">
-            <strong>课程库</strong>
-            <span>{loading ? "同步中" : `${courses.length} 门`}</span>
+            <strong>视频库</strong>
+            <span>{loading ? "同步中" : `${courses.length} 个`}</span>
           </div>
           {categories.length ? (
             <div className="school-tags">
@@ -2040,7 +2039,7 @@ function TrainingRoute({ volunteerUser }) {
           ) : null}
           <div className="school-course-list">
             {loading ? (
-              <div className="school-empty">正在读取视修工坊课程...</div>
+              <div className="school-empty">正在读取教学视频...</div>
             ) : courses.length ? (
               courses.map((course) => (
                 <button
@@ -2051,11 +2050,11 @@ function TrainingRoute({ volunteerUser }) {
                 >
                   <span>{course.category || "维修教学"}</span>
                   <strong>{course.title}</strong>
-                  <small>{course.device_model || course.uploader_name || "视修工坊课程"}</small>
+                  <small>{course.device_model || course.uploader_name || "教学视频"}</small>
                 </button>
               ))
             ) : (
-              <div className="school-empty">暂无匹配课程</div>
+              <div className="school-empty">暂无匹配视频</div>
             )}
           </div>
           <div className="school-parts-entry">
@@ -2071,15 +2070,15 @@ function TrainingRoute({ volunteerUser }) {
           <article className="school-player-card">
             <div className="school-player-head">
               <div>
-                <span>{selectedCourse?.category || "红匠课程"}</span>
-                <h2>{selectedCourse?.title || "请选择课程"}</h2>
-                <p>{selectedCourse?.description || "从左侧选择课程后开始学习。"}</p>
+                <span>{selectedCourse?.category || "红匠学堂"}</span>
+                <h2>{selectedCourse?.title || "请选择教学视频"}</h2>
+                <p>{selectedCourse?.description || "从左侧选择教学视频后开始学习。"}</p>
               </div>
               <BookOpen size={28} />
             </div>
             <div className="school-video-shell">
               {detailLoading ? (
-                <div className="school-empty large">正在加载课程...</div>
+                <div className="school-empty large">正在加载教学视频...</div>
               ) : activeClip?.videoUrl ? (
                 <video
                   ref={videoRef}
@@ -2100,7 +2099,7 @@ function TrainingRoute({ volunteerUser }) {
                   }}
                 />
               ) : (
-                <div className="school-empty large">该课程暂未提供可播放视频</div>
+                <div className="school-empty large">该教学视频暂不可播放</div>
               )}
             </div>
           </article>
@@ -2109,7 +2108,7 @@ function TrainingRoute({ volunteerUser }) {
             <div className="school-comments-head">
               <div>
                 <span>学习讨论</span>
-                <strong>评论同步到视修工坊</strong>
+                <strong>学习交流</strong>
               </div>
               <em>{comments.length} 条</em>
             </div>
