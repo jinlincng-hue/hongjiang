@@ -935,6 +935,46 @@ function normalizeTrainingCourse(project) {
   };
 }
 
+function normalizeTrainingSearchText(value) {
+  return String(value || "").toLowerCase().replace(/\s+/g, "");
+}
+
+const TRAINING_SEARCH_SYNONYMS = [
+  ["电饭锅", "电饭煲", "电饭"],
+  ["热水壶", "电水壶", "烧水壶"],
+  ["取暖器", "小太阳", "电热扇"],
+  ["空开", "空气开关", "断路器"],
+  ["尾插", "充电口", "充电接口"],
+];
+
+function expandTrainingSearchTerms(query) {
+  const normalizedQuery = normalizeTrainingSearchText(query);
+  const terms = new Set([normalizedQuery]);
+
+  for (const group of TRAINING_SEARCH_SYNONYMS) {
+    if (group.some((term) => normalizedQuery.includes(normalizeTrainingSearchText(term)))) {
+      for (const term of group) terms.add(normalizeTrainingSearchText(term));
+    }
+  }
+
+  return Array.from(terms).filter(Boolean);
+}
+
+function courseMatchesTrainingQuery(course, query) {
+  const terms = expandTrainingSearchTerms(query);
+  if (!terms.length) return true;
+
+  const searchable = normalizeTrainingSearchText([
+    course.title,
+    course.description,
+    course.category,
+    course.device_model,
+    course.uploader_name,
+  ].join(" "));
+
+  return terms.some((term) => searchable.includes(term));
+}
+
 async function fetchFixoneJson(pathname, options = {}) {
   const response = await fetch(`${FIXONE_ORIGIN}${pathname}`, {
     ...options,
@@ -985,7 +1025,7 @@ async function handleTrainingCourses(req, res) {
   const requestUrl = new URL(req.url, "http://localhost");
   const query = String(requestUrl.searchParams.get("q") || "").trim();
   const keywords = query
-    ? [query]
+    ? expandTrainingSearchTerms(query)
     : ["维修", "家电", "电脑", "电动车", "五金", "电池", "屏幕", "充电", "不开机", "工具", "数据"];
   const courses = new Map();
   const groups = [];
@@ -994,7 +1034,7 @@ async function handleTrainingCourses(req, res) {
     const data = await fetchFixoneJson(`/api/search?q=${encodeURIComponent(keyword)}`);
     const group = [...(data.projects || []), ...(data.relatedProjects || [])]
       .map(normalizeTrainingCourse)
-      .filter((course) => course.id);
+      .filter((course) => course.id && courseMatchesTrainingQuery(course, query));
     groups.push(group);
   }
 
