@@ -986,21 +986,32 @@ async function handleTrainingCourses(req, res) {
   const query = String(requestUrl.searchParams.get("q") || "").trim();
   const keywords = query
     ? [query]
-    : ["手机维修", "屏幕", "电池", "充电", "主板", "不开机", "电饭煲"];
+    : ["维修", "家电", "电脑", "电动车", "五金", "电池", "屏幕", "充电", "不开机", "工具", "数据"];
   const courses = new Map();
+  const groups = [];
 
   for (const keyword of keywords) {
     const data = await fetchFixoneJson(`/api/search?q=${encodeURIComponent(keyword)}`);
-    [...(data.projects || []), ...(data.relatedProjects || [])].forEach((project) => {
-      const course = normalizeTrainingCourse(project);
-      if (!course.id || courses.has(course.id)) return;
+    const group = [...(data.projects || []), ...(data.relatedProjects || [])]
+      .map(normalizeTrainingCourse)
+      .filter((course) => course.id);
+    groups.push(group);
+  }
+
+  const maxGroupLength = Math.max(0, ...groups.map((group) => group.length));
+  for (let index = 0; index < maxGroupLength; index += 1) {
+    for (const group of groups) {
+      const course = group[index];
+      if (!course || courses.has(course.id)) continue;
       courses.set(course.id, course);
-    });
+      if (courses.size >= (query ? 18 : 30)) break;
+    }
+    if (courses.size >= (query ? 18 : 30)) break;
   }
 
   return json(res, 200, {
     ok: true,
-    courses: Array.from(courses.values()).slice(0, query ? 18 : 24),
+    courses: Array.from(courses.values()),
   });
 }
 

@@ -1769,6 +1769,16 @@ main {
   font-weight: 950;
 }
 
+.training-topbar-inner {
+  gap: 22px;
+}
+
+.training-topbar-inner .nav,
+.training-topbar-inner .header-actions {
+  display: none;
+}
+
+.training-header-search,
 .school-search {
   height: 54px;
   display: flex;
@@ -1781,6 +1791,11 @@ main {
   color: var(--red);
 }
 
+.training-header-search {
+  flex: 1 1 auto;
+  max-width: 920px;
+}
+
 .school-search input {
   width: 100%;
   border: 0;
@@ -1789,8 +1804,12 @@ main {
   font-weight: 800;
 }
 
-.school-hero-actions {
-  width: min(100%, 640px);
+.training-header-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: #1b1b1b;
+  font-weight: 800;
 }
 
 .school-layout {

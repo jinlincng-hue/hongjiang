@@ -167,6 +167,7 @@ const activities = [
 function App() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [trainingSearchQuery, setTrainingSearchQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [routePath, setRoutePath] = useState(() => window.location.pathname);
@@ -358,7 +359,7 @@ function App() {
   return (
     <div className="site-shell">
       <header className="topbar">
-        <div className="topbar-inner">
+        <div className={isTrainingRoute ? "topbar-inner training-topbar-inner" : "topbar-inner"}>
           <a
             className="brand"
             href="/#top"
@@ -371,6 +372,17 @@ function App() {
             <img src={logoUrl} alt="红匠助修" />
             <span>修善于心 · 助人为乐</span>
           </a>
+
+          {isTrainingRoute ? (
+            <label className="training-header-search">
+              <Search size={18} />
+              <input
+                value={trainingSearchQuery}
+                onChange={(event) => setTrainingSearchQuery(event.target.value)}
+                placeholder="搜索教学视频"
+              />
+            </label>
+          ) : null}
 
           <nav className="nav" aria-label="主导航">
             {navItems.map((item, index) => (
@@ -470,6 +482,8 @@ function App() {
           <TrainingRoute
             volunteerUser={volunteerUser}
             videoId={trainingVideoId}
+            query={trainingSearchQuery}
+            setQuery={setTrainingSearchQuery}
             onOpenVideo={navigateTrainingVideo}
             onBack={navigateTraining}
           />
@@ -1832,7 +1846,7 @@ function VolunteerDashboard({ volunteerUser, openFlow, onTrainingOpen, onVolunte
   );
 }
 
-function TrainingRoute({ volunteerUser, videoId, onOpenVideo, onBack }) {
+function TrainingRoute({ volunteerUser, videoId, query, setQuery, onOpenVideo, onBack }) {
   const videoRef = useRef(null);
   const watchRef = useRef({ pendingSeconds: 0, lastWallTime: Date.now(), lastVideoTime: 0, reporting: false });
   const [courses, setCourses] = useState([]);
@@ -1840,7 +1854,6 @@ function TrainingRoute({ volunteerUser, videoId, onOpenVideo, onBack }) {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [clips, setClips] = useState([]);
   const [comments, setComments] = useState([]);
-  const [query, setQuery] = useState("");
   const [commentText, setCommentText] = useState("");
   const [loading, setLoading] = useState(true);
   const [detailLoading, setDetailLoading] = useState(false);
@@ -2034,12 +2047,6 @@ function TrainingRoute({ volunteerUser, videoId, onOpenVideo, onBack }) {
     <section className="training-route school-route" aria-labelledby="training-route-title">
       <div className="school-hero">
         <h1 id="training-route-title">红匠学堂</h1>
-        <div className="school-hero-actions">
-          <label className="school-search">
-            <Search size={18} />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索教学视频" />
-          </label>
-        </div>
       </div>
 
       {message ? <div className="school-message">{message}</div> : null}
