@@ -975,6 +975,15 @@ function courseMatchesTrainingQuery(course, query) {
   return terms.some((term) => searchable.includes(term));
 }
 
+function shuffleTrainingCourses(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 async function fetchFixoneJson(pathname, options = {}) {
   const response = await fetch(`${FIXONE_ORIGIN}${pathname}`, {
     ...options,
@@ -1024,17 +1033,19 @@ async function getFixoneSyncToken() {
 async function handleTrainingCourses(req, res) {
   const requestUrl = new URL(req.url, "http://localhost");
   const query = String(requestUrl.searchParams.get("q") || "").trim();
+  const isSearch = Boolean(query);
   const keywords = query
     ? expandTrainingSearchTerms(query)
-    : ["维修", "家电", "电脑", "电动车", "五金", "电池", "屏幕", "充电", "不开机", "工具", "数据"];
+    : shuffleTrainingCourses(["维修", "家电", "电脑", "电动车", "五金", "电池", "屏幕", "充电", "不开机", "工具", "数据"]);
   const courses = new Map();
   const groups = [];
 
   for (const keyword of keywords) {
     const data = await fetchFixoneJson(`/api/search?q=${encodeURIComponent(keyword)}`);
-    const group = [...(data.projects || []), ...(data.relatedProjects || [])]
+    let group = [...(data.projects || []), ...(data.relatedProjects || [])]
       .map(normalizeTrainingCourse)
       .filter((course) => course.id && courseMatchesTrainingQuery(course, query));
+    if (!isSearch) group = shuffleTrainingCourses(group);
     groups.push(group);
   }
 
@@ -1044,9 +1055,9 @@ async function handleTrainingCourses(req, res) {
       const course = group[index];
       if (!course || courses.has(course.id)) continue;
       courses.set(course.id, course);
-      if (courses.size >= (query ? 18 : 30)) break;
+      if (courses.size >= (isSearch ? 18 : 30)) break;
     }
-    if (courses.size >= (query ? 18 : 30)) break;
+    if (courses.size >= (isSearch ? 18 : 30)) break;
   }
 
   return json(res, 200, {
