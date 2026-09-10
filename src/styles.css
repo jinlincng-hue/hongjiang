@@ -4903,7 +4903,7 @@ main {
     z-index: 80;
     min-height: 64px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
     border: 1px solid rgba(230, 0, 18, 0.14);
     border-radius: 22px;

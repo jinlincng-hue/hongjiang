@@ -39,7 +39,6 @@ const navItems = [
 
 const bottomNavItems = [
   { label: "首页", path: "/", icon: Home },
-  { label: "报修", path: "/repair", icon: Wrench },
   { label: "志愿者", path: "/volunteer", icon: UserCheck },
   { label: "学习", path: "/training", icon: Smartphone },
 ];
@@ -575,8 +574,6 @@ function App() {
                   } else {
                     openFlow("volunteer");
                   }
-                } else if (item.path === "/repair") {
-                  openFlow("repair");
                 } else if (item.path === "/") {
                   navigateHome();
                 } else {
