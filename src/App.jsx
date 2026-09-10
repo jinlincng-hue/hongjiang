@@ -188,7 +188,6 @@ function App() {
     : "";
   const isVolunteerRoute = routePath === "/volunteer";
   const isVolunteerRankingsRoute = routePath === "/volunteer-rankings";
-  const isRepairRoute = routePath === "/repair";
   const isActivityRoute = routePath.startsWith("/activity/");
   const isAdminRoute = routePath === "/admin-activities";
   const allActivities = useMemo(() => {
@@ -285,13 +284,6 @@ function App() {
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }
-
-  function navigateRepair() {
-    window.history.pushState({}, "", "/repair");
-    setRoutePath("/repair");
-    setActiveSection("#我要报修");
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function navigateTraining() {
@@ -392,11 +384,9 @@ function App() {
                   (isTrainingRoute && item.path === "/training") ||
                   (isVolunteerRoute && item.path === "/volunteer") ||
                   (isVolunteerRankingsRoute && item.path === "/volunteer") ||
-                  (isRepairRoute && item.path === "/repair") ||
                   (!isTrainingRoute &&
                     !isVolunteerRoute &&
                     !isVolunteerRankingsRoute &&
-                    !isRepairRoute &&
                     !isActivityRoute &&
                     !isAdminRoute &&
                     item.path === "/") ||
@@ -416,7 +406,7 @@ function App() {
                       openFlow("volunteer");
                     }
                   } else if (item.path === "/repair") {
-                    navigateRepair();
+                    openFlow("repair");
                   } else if (item.path === "/") {
                     navigateHome();
                   } else {
@@ -499,8 +489,6 @@ function App() {
             openFlow={openFlow}
             onVolunteerEnter={navigateVolunteer}
           />
-        ) : isRepairRoute ? (
-          <RepairRoute openFlow={openFlow} />
         ) : isAdminRoute ? (
           <AdminActivities
             onChanged={(activity, action) =>
@@ -542,7 +530,7 @@ function App() {
                   </span>
                 </div>
                 <div className="hero-ctas">
-                  <button className="solid-button large" onClick={navigateRepair}>
+                  <button className="solid-button large" onClick={() => openFlow("repair")}>
                     <Heart size={22} fill="currentColor" />
                     我要报修
                   </button>
@@ -588,7 +576,7 @@ function App() {
                     openFlow("volunteer");
                   }
                 } else if (item.path === "/repair") {
-                  navigateRepair();
+                  openFlow("repair");
                 } else if (item.path === "/") {
                   navigateHome();
                 } else {
@@ -615,80 +603,6 @@ function App() {
         />
       )}
     </div>
-  );
-}
-
-function RepairRoute({ openFlow }) {
-  return (
-    <section className="repair-page" aria-labelledby="repair-page-title">
-      <div className="repair-page-head">
-        <span>居民报修</span>
-        <h1 id="repair-page-title">选择服务项目，提交报修需求</h1>
-        <p>水电、门窗、家电、手机及其他便民维修统一在这里提交。</p>
-      </div>
-      <ServicesSection openFlow={openFlow} showJoinCard={false} />
-    </section>
-  );
-}
-
-function ServicesSection({ openFlow, showJoinCard = true }) {
-  return (
-    <section className="services-panel" id="我要报修" aria-labelledby="services-title">
-      <div className="section-head">
-        <h2 id="services-title">服务项目</h2>
-      </div>
-
-      <div className={showJoinCard ? "service-layout" : "service-layout repair-only"}>
-        <div className="service-summary">
-          <div className="service-grid">
-            {services.map((service) => {
-              const Icon = service.icon;
-              return (
-                <article className="service-card" key={service.title}>
-                  <div className={`service-icon ${service.color}`}>
-                    <Icon size={26} />
-                  </div>
-                  <div>
-                    <h3>{service.title}</h3>
-                    <p>{service.desc}</p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-          <button className="solid-button service-main-action" onClick={() => openFlow("repair")}>
-            立即报修
-          </button>
-        </div>
-
-        {showJoinCard && (
-          <aside className="join-card" id="志愿者招募">
-            <img src={heroUrl} alt="红匠助修志愿者为居民维修家电" />
-            <div>
-              <h3>
-                加入我们
-                <br />
-                成为志愿者
-              </h3>
-              <ul>
-                <li>
-                  <Check size={15} /> 用技能传递温暖
-                </li>
-                <li>
-                  <Check size={15} /> 用行动帮助他人
-                </li>
-                <li>
-                  <Check size={15} /> 共建美好社区
-                </li>
-              </ul>
-              <button className="solid-button" onClick={() => openFlow("volunteer")}>
-                立即加入
-              </button>
-            </div>
-          </aside>
-        )}
-      </div>
-    </section>
   );
 }
 
