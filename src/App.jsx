@@ -1816,6 +1816,7 @@ function VolunteerDashboard({ volunteerUser, openFlow, onTrainingOpen, onVolunte
 
 function TrainingRoute({ volunteerUser }) {
   const videoRef = useRef(null);
+  const playerSectionRef = useRef(null);
   const watchRef = useRef({ pendingSeconds: 0, lastWallTime: Date.now(), lastVideoTime: 0, reporting: false });
   const [courses, setCourses] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState("");
@@ -1851,7 +1852,7 @@ function TrainingRoute({ volunteerUser }) {
         const nextCourses = Array.isArray(data.courses) ? data.courses : [];
         setCourses(nextCourses);
         setSelectedCourseId((current) =>
-          nextCourses.some((course) => course.id === current) ? current : nextCourses[0]?.id || "",
+          nextCourses.some((course) => course.id === current) ? current : "",
         );
       })
       .catch((error) => {
@@ -1867,7 +1868,12 @@ function TrainingRoute({ volunteerUser }) {
   }, [query]);
 
   useEffect(() => {
-    if (!selectedCourseId) return undefined;
+    if (!selectedCourseId) {
+      setSelectedCourse(null);
+      setClips([]);
+      setComments([]);
+      return undefined;
+    }
     let cancelled = false;
     setDetailLoading(true);
     setMessage("");
@@ -2005,6 +2011,13 @@ function TrainingRoute({ volunteerUser }) {
     return date.toLocaleString("zh-CN", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" });
   }
 
+  function openTeachingVideo(courseId) {
+    setSelectedCourseId(courseId);
+    window.setTimeout(() => {
+      playerSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  }
+
   return (
     <section className="training-route school-route" aria-labelledby="training-route-title">
       <div className="school-hero">
@@ -2022,51 +2035,70 @@ function TrainingRoute({ volunteerUser }) {
 
       {message ? <div className="school-message">{message}</div> : null}
 
-      <div className="school-layout">
-        <aside className="school-sidebar" aria-label="教学视频列表">
-          <div className="school-sidebar-head">
+      <section className="school-video-feed" aria-label="教学视频">
+        <div className="school-feed-head">
+          <div>
             <strong>视频库</strong>
-            <span>{loading ? "同步中" : `${courses.length} 个`}</span>
+            <span>{loading ? "同步中" : `${courses.length} 个教学视频`}</span>
           </div>
-          {categories.length ? (
-            <div className="school-tags">
-              {categories.map((category) => (
-                <button type="button" key={category} onClick={() => setQuery(category)}>
-                  {category}
-                </button>
-              ))}
-            </div>
-          ) : null}
-          <div className="school-course-list">
-            {loading ? (
-              <div className="school-empty">正在读取教学视频...</div>
-            ) : courses.length ? (
-              courses.map((course) => (
-                <button
-                  className={selectedCourseId === course.id ? "school-course active" : "school-course"}
-                  type="button"
-                  key={course.id}
-                  onClick={() => setSelectedCourseId(course.id)}
-                >
-                  <span>{course.category || "维修教学"}</span>
-                  <strong>{course.title}</strong>
-                  <small>{course.device_model || course.uploader_name || "教学视频"}</small>
-                </button>
-              ))
-            ) : (
-              <div className="school-empty">暂无匹配视频</div>
-            )}
+          <div className="school-tags">
+            {categories.map((category) => (
+              <button type="button" key={category} onClick={() => setQuery(category)}>
+                {category}
+              </button>
+            ))}
           </div>
-          <div className="school-parts-entry">
-            <Wrench size={20} />
-            <div>
-              <strong>配件库</strong>
-              <span>接口预留，待同步模块接入</span>
-            </div>
-          </div>
-        </aside>
+        </div>
 
-        <div className="school-main">
+        {loading ? (
+          <div className="school-empty">正在读取教学视频...</div>
+        ) : courses.length ? (
+          <div className="school-video-grid">
+            {courses.map((course) => (
+              <button
+                className={selectedCourseId === course.id ? "school-video-card active" : "school-video-card"}
+                type="button"
+                key={course.id}
+                onClick={() => openTeachingVideo(course.id)}
+              >
+                <span className="school-video-cover">
+                  {course.thumbnailUrl ? (
+                    <img
+                      src={course.thumbnailUrl}
+                      alt=""
+                      loading="lazy"
+                      onLoad={(event) => {
+                        const image = event.currentTarget;
+                        if (image.naturalWidth && image.naturalHeight) {
+                          image.parentElement?.style.setProperty("--cover-ratio", `${image.naturalWidth} / ${image.naturalHeight}`);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <span>播放</span>
+                  )}
+                  <em>{course.category || "维修教学"}</em>
+                </span>
+                <strong>{course.title}</strong>
+                <small>{course.device_model || course.uploader_name || "教学视频"}</small>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="school-empty">暂无匹配视频</div>
+        )}
+
+        <div className="school-parts-entry">
+          <Wrench size={20} />
+          <div>
+            <strong>配件库</strong>
+            <span>接口预留，待同步模块接入</span>
+          </div>
+        </div>
+      </section>
+
+      {selectedCourseId ? (
+        <div className="school-main" ref={playerSectionRef}>
           <article className="school-player-card">
             <div className="school-player-head">
               <div>
@@ -2149,7 +2181,7 @@ function TrainingRoute({ volunteerUser }) {
             </div>
           </article>
         </div>
-      </div>
+      ) : null}
     </section>
   );
 }
